@@ -1,0 +1,20 @@
+
+.slideup{
+    position: relative;
+    -webkit-animation-name: slideup; /* Chrome, Safari, Opera */
+    -webkit-animation-duration: 1.2s; /* Chrome, Safari, Opera */
+    animation-name: slideup;
+    animation-duration: 1.2s;
+}
+
+/* Chrome, Safari, Opera */
+@-webkit-keyframes slideup {
+    0%   { left:0px; top:0px;}
+    100% { left:0px; top:30px;}
+}
+
+/* Standard syntax */
+@keyframes slideup {
+    0%   { left:0px; top:30px;}
+    100% { left:0px; top:0px;}
+}
