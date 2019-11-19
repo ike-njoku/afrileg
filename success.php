@@ -1,4 +1,4 @@
-<?php /*
+<?php 
 	
 	//  if the refering page does not contain rave.flutterwave (name of the billing service), redirect to  index
 	if (isset($_SERVER['HTTP_REFERER'])and ($_SERVER['HTTP_REFERER']=="http://localhost/afrileg.com/checkout.php" or $_SERVER['HTTP_REFERER']=="http://afrileg.herokuapp.com/checkout.php")) {
@@ -7,7 +7,7 @@
 		header("location:index.php");
 		return;
 	}
-	*/
+	
 	
 ?>
 
