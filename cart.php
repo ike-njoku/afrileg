@@ -55,7 +55,7 @@
 													'.$g_product['name'].'
 												</div>
 											</div>
-											<a href="view_product.php?product_id='.$g_product['id'].'">
+											<a href="view_product.php?product_id='.$product['id'].'">
 												<img style="height:50px; width:50px;" src= "admin/'.$g_product['image1'].'">
 											</a>
 										</td>
@@ -69,7 +69,8 @@
 												</a>
 										</td>
 										<td>
-											NGN <span id="display_row_total_'.$product['id'].'">
+											NGN 
+											<span id="hello_'.$product_id.'">
 												'.$row_total.'
 											</span>
 										</td>
@@ -124,20 +125,7 @@
 
 			})
 
-			// update the row total after updating the quantity per needed product
-			document.getElementById("'.$product['id'].'quantity").addEventListener("keyup",function(){
-				if(window.XMLHttpRequest){update_row_total_request = new XMLHttpRequest();}else{ update_row_total_request = new ActiveXObject("Microsoft.XMLHTTP");}
-				update_row_total_request.open("GET","include/cart_calculate_row_total.php",true);
-				update_row_total_request.onreadystatechange = function(){
 
-					if(update_row_total_request.status==200 && update_row_total_request.readyState==4){
-						window.alert(update_row_total_request.responseText);
-						document.getElementById("display_row_total_'.$product['id'].'").innerHTML = update_row_total_request.responseText;
-					}
-				}
-				update_row_total_request.send();
-
-			})
 
 
 			// update the cart total after editing the quantity per product
@@ -156,12 +144,36 @@
 				reset_cart_total_request.send();
 
 			})
+
+			
+		 // update the row_total after increasing or decreasing the quantity of products needed
+		 document.getElementById("'.$product['id'].'quantity").addEventListener("keyup",function(){
+		 	var update_row_total_request;
+		 	var display_place = document.getElementById("hello_'.$product_id.'");
+		 	if(window.XMLHttpRequest){update_row_total_request = new XMLHttpRequest(); }else{update_row_total_request= new ActiveXObject("Microsoft.HTTP");}
+		 	update_row_total_request.open("GET","include/cart_calculate_row_total.php");
+		 	update_row_total_request.onreadystatechange = function(){
+		 		if(update_row_total_request.readyState==4 && update_row_total_request.status==200)
+		 		{
+		 			document.getElementById("hello_'.$product_id.'").innerHTML = update_row_total_request.responseText;
+		 		}
+		 	}
+		 	update_row_total_request.send();
+				
+		 })
+
+
+
+
+
+
 		</script>
+
 		
 										'										
 									;}
 
-								}else {$err = '<div class="mt-4 w-100 alert alert-info py-5"><section class="py-5"> <h3>You do not have any items in your cart</h3></section> <a href="shop.php"class=" btn btn-small btn-outline-secondary m-1"><i class="far fa-arrow-alt-circle-left"></i>   shop</a> </section></div> ';}
+								}else {$err = '<div class="mt-4 w-100 alert alert-info py-5"><section class="py-5"> <h3 class="lead">You do not have any items in your cart</h3></section> <a href="shop.php"class=" btn btn-small btn-outline-secondary m-1"><i class="far fa-arrow-alt-circle-left"></i>   shop</a> </section></div> ';}
 
 
 								?>
@@ -196,17 +208,6 @@
 						</div>
 					</div>
 
-					<script>
-						var checkout_btn = document.getElementById("save_button");
-						checkout_btn.addEventListener("click",function(){
-							var check_cart;
-							if(window.XMLHttpRequest){check_cart = new XMLHttpRequest();}else{check_cart = new ActiveXObject("Microsoft.XMLHTTP");}
-							check_cart.open("GET","include/redirect_empty_cart.php?customer_id='.$cusid.'",true);
-							check_cart.onload = function(){window.alert(check_cart.responseText);}
-							check_cart.send();
-							})
-					</script>
-
 							';
 						
 						}
@@ -224,3 +225,4 @@
 
 <?php include("include/footer.php");?>
 						
+
