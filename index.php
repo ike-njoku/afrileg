@@ -1,5 +1,5 @@
 <?php include("include/header.php");?>
-
+<script>window.alert("This service is still under development. please be careful not to complete any transactions without first informing the service providers... also, if you detect bugs please let us know by filling out the 'contact us form'. also if you have a better name than afrileg ");</script>
 <?php 
 
 // contact us
