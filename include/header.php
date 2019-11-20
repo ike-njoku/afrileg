@@ -167,9 +167,7 @@
     </div>  
   </div>
 </div>
-'
-;}
-?>
+
 <?php 
   $err="";
   if (isset($_POST['login'])) {
