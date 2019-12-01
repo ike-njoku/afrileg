@@ -9,12 +9,18 @@
 		$customer = mysqli_fetch_assoc($qry);
 		
 		// check if the data is available and then insert it
-		if (isset($_GET['product_id']) and isset($_GET['product_name'])) {
+		if (isset($_GET['product_id'])) {
 
 			// get the product details 
-			$product_id = $_GET['product_id'];
-			$product_name = $_GET['product_name'];
-			$product_price = $_GET['product_price'];
+			$product_id =$_GET['product_id'];
+
+			// get the price of the product from the products table
+			$get_product = mysqli_query($config,"select * from products where id='$product_id' ");
+			$product = mysqli_fetch_assoc($get_product);
+
+			$product_price = $product['price'];
+			
+
 
 			
 			// enter data 

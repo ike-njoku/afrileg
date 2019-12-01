@@ -20,7 +20,8 @@
 			$get_coupon = mysqli_query($config,"select * from coupons where customer_id='$customer_id' and used='0' and code='$key_' ");
 			$coupon = mysqli_fetch_assoc($get_coupon);
 
-			echo '<b>N</b>'.$coupon['value'];
+			echo '<b>-N</b>'.$coupon['value'];
+			
 	
 		}
 	}

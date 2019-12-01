@@ -17,7 +17,7 @@
 			<a href="view_product.php?product_id=<?php echo $product['id'];?>">
 				<img height="30" width="30" src="admin/<?php echo $product['image1'];?>">
 				<?php echo $product['name'];?> </a>
-				   in:  	<a href="shop.php?sscat_id=<?php echo $sscat['id'];?> "><?php echo $sscat['name']; ?></a>
+				   in 	<a href="shop.php?sscat_id=<?php echo $sscat['id'];?> "><?php echo $sscat['name']; ?></a>
 		</div>
 		<?php endwhile?>
 	<?php endwhile ;?>
