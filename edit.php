@@ -19,8 +19,8 @@
 		if ($password_1 == $password_2) {
 			
 		
-			$old_password =md5(md5($_POST['old_password'])) ;
-			$new_password = md5(md5($_POST['password_2'])) ;
+			$old_password = crc32(md5(md5($_POST['old_password'])));
+			$new_password = crc32 (md5(md5($_POST['password_2'])));
 
 			// check if password_1 and password_2 are the same before inserting password_2 into db
 

@@ -16,7 +16,7 @@
 		}
 		// initialise the value of the coupon to zero, that is , if there is a coupon
 		$coupon_value=0;
-		$shipping_fee=0;
+		$shipping_fee=0.34;
 
 		$grand_total= ($cart_total-$coupon_value  +$shipping_fee);
 
@@ -52,7 +52,7 @@
 					 
 					 <div class="">
 					 	<hr>
-					 	Delivery Fee:
+					 	Delivery Fee: <?php echo $shipping_fee;?>
 					 </div>
 					 <hr>
 					 <div class="">
@@ -127,7 +127,7 @@
 							</div>
 						</div>	
 				</div>
-				</form>
+					</form>
 				<div class="card-footer">
 					<div style="float:right;" class="btn-group">
 						<a href="cart.php" class="btn btn-secondary btn-outline-secondry">
@@ -136,9 +136,8 @@
 							
 <form>
     <script src="https://api.ravepay.co/flwv3-pug/getpaidx/api/flwpbf-inline.js"></script>
-    <button class="btn btn-info" type="button" onClick="payWithRave()">Pay Now <i class="ti-wallet"></i> </button>
-</form>
-
+    <button class="btn btn-secondary btn-info" type="button" onClick="payWithRave()">Pay Now <i class="ti-wallet"></i> </button>
+</form> 
 <script type="text/javascript">
  	//process the search for coupon
  	document.getElementById("coupon").addEventListener("keyup",function(){

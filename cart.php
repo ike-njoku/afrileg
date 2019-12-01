@@ -55,7 +55,7 @@
 													'.$g_product['name'].'
 												</div>
 											</div>
-											<a href="view_product.php?product_id='.$product['id'].'">
+											<a href="view_product.php?product_id='.$g_product['id'].'">
 												<img style="height:50px; width:50px;" src= "admin/'.$g_product['image1'].'">
 											</a>
 										</td>
