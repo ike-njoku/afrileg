@@ -1,14 +1,37 @@
 <?php include("include/header.php");?>
 <?php include("include/connect.php"); ?>
+
+<?php
+
+	
+?>
+
 <?php $err=""; 
 	if (isset($_POST['signup'])) {
 		$email=$_POST['email'];
 		$username=$_POST['username'];
-		$password=md5(md5($_POST['password']));
+		$password=crc32(md5(md5($_POST['password'])));
 		$hash = md5(rand(1,400000));
+		// create referal code
+		$referal_code = crc32($email);
+
+	// get the referer
+	
+	if (isset($_GET['ref'])) {
+		$referal_code  = $_GET['ref'];
+		$referal_bonus = 100;
+
+		// get the referer_id
+
+		$get_referer = mysqli_query($config,"select * from customers where referal_code='$referal_code' ");
+		$referer = mysqli_fetch_assoc($get_referer);
+		$referer_id = $referer['id'];
+
+
+	}
 
 		// insert into database
-		$qry= mysqli_query($config, "insert into customers (email, username, password, active, regdate) values('$email', '$username', '$password', '$hash', NOW() )" );
+		$qry= mysqli_query($config, "insert into customers (email, username, password, active, regdate, referal_code,referer_id) values('$email', '$username', '$password', '$hash', NOW(), '$referal_code', '$referer_id' )" );
 		if (mysqli_affected_rows($config)>0) {
 			
 			// send mail
@@ -32,6 +55,7 @@
 					</body>
 				</html>
 			';
+
 
 			if (mail($to, $subject, $message, $headers)) {
 				$err='<div class="alert alert-success p-1 mb-2 text-center"> Your account has been created successfully. <p class="small"> An activation link has been sent to your email. please click the link to activate your account  </p> </div>';

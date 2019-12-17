@@ -222,7 +222,6 @@
 	<?php include("include/end_category.php");?>
 </div>
 
-
 <?php include("include/footer.php");?>
-						
+					
 

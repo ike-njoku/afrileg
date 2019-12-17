@@ -1,5 +1,5 @@
 <?php include("include/header.php");?>
-<script>window.alert("This service is still under development. please be careful not to complete any transactions without first informing the service providers... also, if you detect bugs please let us know by filling out the 'contact us form'. also if you have a better name than afrileg ");</script>
+
 <?php 
 
 // contact us
@@ -58,7 +58,7 @@
 
 <!-- new arrivals -->
 <section id="newarrivals" class="py-5">
-  <div class="container bg-light py-5 text-center">
+  <div class="container-fluid bg-light py-5 text-center">
     <h1 class="m-3" > New Arrivals </h1>
     <hr>
     <div class="row">
@@ -106,12 +106,12 @@
 <hr id="contactus">
 
 <!-- contact us -->
-<section class="container py-5">
+<section class="container-fluid py-5">
   <div class="header">
     <h1>Contact Us</h1>
     <hr>
   </div>
-  <div class="container">
+  <div class="container-fluid">
     <div class="py-5">
       <div class="row d-flex justify-content-between mb-4">
         <div class="col-md-6 mb-4 mt-4 pr-4 pl-4">

@@ -3,7 +3,7 @@
   $err="";
   if (isset($_POST['login'])) {
     $email=$_POST['email'];
-  $password=md5(md5($_POST['password']));
+    $password= crc32(md5(md5($_POST['password'])));
 
   // search for a match in the database
   $qry=mysqli_query($config,"select * from customers where email='$email' " );

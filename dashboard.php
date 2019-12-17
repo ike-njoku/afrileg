@@ -32,11 +32,21 @@
 	$delivery = mysqli_fetch_assoc($delivery_details);
 ?>
 
+<?php 
+	// get the amount of money that the registered customer has in their wallet
+	$get_wallet_balance = mysqli_query($config,"select * from wallet where customer_id='$customer_id' ");
+	$wallet_balance= mysqli_fetch_assoc($get_wallet_balance);
+	if ($wallet_balance < 0) {
+		$wallet_balance = 0.00;
+	}
+?>
+
 
 <section class="py-5"></section>
 <div class="container-fluid">
-	<div class="p-2">
-		<h3> Welcome, <?php echo $customer['username'];?></h3>
+	<div class="p-2 d-flex justify-content-between">
+		<div><h3> Welcome, <?php echo $customer['username'];?></h3> </div>
+		<div class="lead"><b>wallet balance:<i class="ti-wallet"></i> <?php echo $wallet_balance['amount'];?></b></div>
 	</div>
 	<div class="row text-center mb-4 py-2">
 		<div class="col-md-4 py-5">
@@ -107,7 +117,7 @@
 					<hr>
 					<a href="#">Buy Gift Card</a>
 					<hr>
-					<a href="#">Referal Bonuses</a>
+					<a href="referal.php">Referals</a>
 					<hr>
 					<a href="#">Become an Ambassador</a>
 				</div>

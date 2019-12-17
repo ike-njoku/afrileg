@@ -7,11 +7,13 @@
 		header("location:index.php");
 		return;
 	}
-*/	
+	*/
 	
 ?>
 
 <?php include("include/header.php");?>
+
+
 
 <section class="py-5"></section>
 <div class="container">
@@ -21,6 +23,10 @@
 		please click <a href="shop.php">here </a> to return to our shop</h6>
 
 
+<?php 
+	
+	
+?>
 
 
 
@@ -46,6 +52,39 @@
 			1 percent of the cart tota as store credits which can be used to purchase stuff 
 			from the company without actually paying money
 		*/
+
+
+	// check if the customer is in the orders table. if the customer is there,ignore it
+	// else,  it means that the customer has never bought anything before and this is his first purchase. so we will now give the referer 5% of the customer's first purchase
+
+	$check_if_first_purchase = mysqli_query($config,"select * from orders where customer_id='$customer_id' ");
+	if (mysqli_num_rows($check_if_first_purchase)<1) { #ie if this is the customer's first purchase
+		
+
+		$referer_bonus = (5/100)* $cart_total;
+		// give the referer the referal bonus2
+
+		// first check if the referer is already in the wallet
+
+		$referer_id = $customer['referer_id'];
+
+		$referer_wallet_check = mysqli_query($config,"select * from wallet where customer_id ='$referer_id' ");
+
+		if (mysqli_num_rows($referer_wallet_check)>0) { #ie the referer already has money in his wallet
+			
+			// add the referer bonus to what is already in the wallet
+			$update_referer_wallet = mysqli_query($config,"update wallet set amount = (amount + $referer_bonus) where customer_id ='$referer_id' ");
+		}else{
+
+			//ie if the referer is new to the wallet system, insert his name and give him referer_bonus
+			$insert_referer = mysqli_query($config,"insert into wallet(customer_id,amount) values('$referer_id','$referer_bonus') ");
+
+				
+
+		}
+		
+	}
+
 
 		$coupon =0;
 		if ($cart_total>=12000) {
@@ -127,8 +166,6 @@
 
 	
 ?>
-
-
 		<div> 
 			<hr>
 			Your Tracking ID is:<br> <b><?php echo $tracking_id; ?></b><br>
@@ -141,9 +178,7 @@
 
 	</div>
 </div>
-
-
-
+ 
 <div class="fixed-bottom">
 	<?php include("include/footer.php");?>
 </div>

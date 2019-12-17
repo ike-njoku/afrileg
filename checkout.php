@@ -24,6 +24,21 @@
 ?>
 
 <section class="py-5" ></section>
+<?php 
+	// get the wallet balance
+	$get_wallet = mysqli_query($config,"select * from wallet where customer_id='$customer_id' ");
+	if (mysqli_num_rows($get_wallet)) {
+		$wallet = mysqli_fetch_assoc($get_wallet);
+		$wallet_balance = $wallet['amount'];
+
+		if ($wallet_balance > 0) {
+			
+			$amount_in_wallet = $wallet_balance;
+		}else{
+			$amount_in_wallet = "0.00";
+		}
+	}
+?>
 <div class="container-fluid">
 	<div class="row">	
 		<!-- order summary -->
@@ -128,16 +143,59 @@
 						</div>	
 				</div>
 					</form>
-				<div class="card-footer">
-					<div style="float:right;" class="btn-group">
-						<a href="cart.php" class="btn btn-secondary btn-outline-secondry">
-							back to cart <i class="ti-shopping-cart "></i>
+				<div class="card-footer d-flex justify-content-right">
+					<div>
+						<a class="btn btn-small btn-secondary btn-outline-secondry"  href="cart.php">
+							back to shop<i class="ti-shopping-cart "></i>
 						</a>
+					</div>
+					<div style="float:right;" class="btn-group">
+						<button data-toggle="modal" data-target="#payment_modal" class="btn btn-info btn-outline-secondry">
+							pay
+						</button>
+						<div id="payment_modal" class="modal fade">
+							<div class="modal-dialog">
+								<div class="modal-content">
+									<div class="modal-header">
+										<b>Please select a payment Method:</b>
+									</div>
+									<div class="modal-body">
+										<div>
+											<div class="lead mb-4">
+												<?php echo "your wallet balance is NGN".$amount_in_wallet; ?>
+											</div>	
+											</div>
+										<div class="row">
+											<div class="col d-flex justify-content-left">
+												<button class="btn btn-secondary">pay from wallet</button>
+												<form>
+													<?php 
+													// this is the payment method for rave.flutterwave
+													?>
+												    <script src="https://api.ravepay.co/flwv3-pug/getpaidx/api/flwpbf-inline.js"></script>
+												    <button s class="btn btn-secondary  btn-info" type="button" onClick="payWithRave()">Pay with card <i class="ti-wallet"></i> </button>
+												</form>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+
+					</div>
+				</div>
+					
+			</div>
+		</div>
+
+		<!-- end of delivery details -->
+	</div>
+</div>
+<?php include("include/footer.php");?>
 							
-<form>
-    <script src="https://api.ravepay.co/flwv3-pug/getpaidx/api/flwpbf-inline.js"></script>
-    <button class="btn btn-secondary btn-info" type="button" onClick="payWithRave()">Pay Now <i class="ti-wallet"></i> </button>
-</form> 
+<?php 
+// the rest of this script is the javascript code that offers payment method for rave.flutterwave 
+?> 
 <script type="text/javascript">
  	//process the search for coupon
  	document.getElementById("coupon").addEventListener("keyup",function(){
@@ -187,15 +245,3 @@
         });
     }
 </script>
-
-					</div>
-				</div>
-					
-			</div>
-		</div>
-
-		<!-- end of delivery details -->
-	</div>
-</div>
-
-<?php include("include/footer.php");?>
