@@ -12,25 +12,12 @@
 ?>
 
 <?php include("include/header.php");?>
-
-
-
 <section class="py-5"></section>
 <div class="container">
 	<div  class="text-center py-5">
 		<img src="images/tick-loop-1.gif"><br><br>
 		<h6>Your Order Was Successful. <br>
 		please click <a href="shop.php">here </a> to return to our shop</h6>
-
-
-<?php 
-	
-	
-?>
-
-
-
-
 
 <?php 
 
@@ -44,6 +31,27 @@
 			$row_total = $quantity * $price;
 			
 			$cart_total = $cart_total + $row_total;
+
+			// check the person's method of payment
+			if(isset($_GET['mtd']))
+			{
+				// check if the person is paying from their wallet;
+				if($_GET['mtd']="wallet")
+				{
+					$coupon_value=0;
+					$shipping_fee=0.34;
+					$get_wallet_balance = mysqli_query($config,"select * from wallet where customer_id ='$customer_id' " );
+					$wallet = mysqli_fetch_assoc($get_wallet_balance);
+					$wallet_balance = $wallet['amount'];
+
+					$grand_total= ($cart_total-$coupon_value  +$shipping_fee);
+					$new_wallet_balance = $wallet_balance - $grand_total;
+					// update the wallet after subtracting waht the person has paid 
+					$update_wallet = mysqli_query($config, "update wallet set amount ='$new_wallet_balance' where customer_id ='$customer_id' ");
+
+				}
+			}
+
 
 		}
 
@@ -85,7 +93,7 @@
 		
 	}
 
-
+		// coupons
 		$coupon =0;
 		if ($cart_total>=12000) {
 
@@ -100,7 +108,7 @@
 			{
 				$give_coupon = mysqli_query($config,"insert into coupons(customer_id,event,value,code) values('$customer_id','purchase','$coupon_value','$coupon_code') ");
 				if ($give_coupon) {
-					echo 'You have been awarded a N '.$coupon_value.' click here to view ';
+					echo 'You have been awarded a N '.$coupon_value.' click <a href="coupons.php"> here to view</a> ';
 				}
 			}
 		}

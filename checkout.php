@@ -1,30 +1,7 @@
 <?php include("include/header.php");?>
-<?php
-
-	
-	// select products from cart
-	$get_products = mysqli_query($config,"select * from cart where customer_id = '$customer_id' and purchased ='0' ");
-	if (mysqli_num_rows($get_products)) {
-		$cart_total =0;
-		while($cart = mysqli_fetch_array($get_products)){
-			$quantity =$cart['quantity'];
-			$price = $cart['product_price'];
-			$row_total = $quantity * $price;
-			
-			$cart_total = $cart_total + $row_total;
-
-		}
-		// initialise the value of the coupon to zero, that is , if there is a coupon
-		$coupon_value=0;
-		$shipping_fee=0.34;
-
-		$grand_total= ($cart_total-$coupon_value  +$shipping_fee);
-
-	}else{header("location:shop.php");}
-?>
-
 <section class="py-5" ></section>
 <?php 
+	$amount_in_wallet = 0;
 	// get the wallet balance
 	$get_wallet = mysqli_query($config,"select * from wallet where customer_id='$customer_id' ");
 	if (mysqli_num_rows($get_wallet)) {
@@ -39,6 +16,33 @@
 		}
 	}
 ?>
+<?php	
+	$wallet_balance=0;
+	// select products from cart
+	$get_products = mysqli_query($config,"select * from cart where customer_id = '$customer_id' and purchased ='0' ");
+	if (mysqli_num_rows($get_products)) {
+		$cart_total =0;
+		while($cart = mysqli_fetch_array($get_products)){
+			$quantity =$cart['quantity'];
+			$price = $cart['product_price'];
+			$row_total = $quantity * $price;
+			
+			$cart_total = $cart_total + $row_total;
+
+		}
+		// initialise the value of the coupon to zero, that is, if there is a coupon
+		$coupon_value=0;
+		$shipping_fee=0.34;
+
+		$grand_total= ($cart_total-$coupon_value + $shipping_fee);
+
+	} else {header("location:index.php");}
+
+	// subtract the grand total from persons wallet
+	// tell the customer how much will be left in their wallet if they make that payment
+	$new_wallet_balance = $wallet_balance - $grand_total;
+?>
+
 <div class="container-fluid">
 	<div class="row">	
 		<!-- order summary -->
@@ -151,7 +155,7 @@
 					</div>
 					<div style="float:right;" class="btn-group">
 						<button data-toggle="modal" data-target="#payment_modal" class="btn btn-info btn-outline-secondry">
-							pay
+							pay Now
 						</button>
 						<div id="payment_modal" class="modal fade">
 							<div class="modal-dialog">
@@ -162,12 +166,24 @@
 									<div class="modal-body">
 										<div>
 											<div class="lead mb-4">
-												<?php echo "your wallet balance is NGN".$amount_in_wallet; ?>
+												<?php echo "your wallet balance is NGN".$amount_in_wallet; ?><br>
 											</div>	
+											<div style="display: none;" id="confirm_wallet_pay" class="mt-4 mb-4">
+												<?php if(($grand_total > $amount_in_wallet) or ($wallet_balance - $grand_total >= 0)):?>
+												you do not have enough funds to complete this purchase. please try a different payment method Or click <a href="#">here</a> to fund your wallet.
+												<?php else:?>
+													the sum of <b>NGN<?php echo $grand_total;?></b> will be deducted from your wallet. click <a href="success.php?mtd=wallet"> here</a> to confirm.
+												<?php endif;?>
 											</div>
+										</div>
 										<div class="row">
 											<div class="col d-flex justify-content-left">
-												<button class="btn btn-secondary">pay from wallet</button>
+												<button id="wallet_pay" class="btn btn-secondary">pay from wallet</button>
+												<script type="text/javascript">
+													document.getElementById("wallet_pay").addEventListener("click",function(){
+														document.getElementById("confirm_wallet_pay").style.display="block";
+													})
+												</script>
 												<form>
 													<?php 
 													// this is the payment method for rave.flutterwave
@@ -181,10 +197,8 @@
 								</div>
 							</div>
 						</div>
-
 					</div>
 				</div>
-					
 			</div>
 		</div>
 
@@ -244,4 +258,5 @@
             }
         });
     }
+
 </script>
