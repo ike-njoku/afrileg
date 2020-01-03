@@ -39,12 +39,10 @@
 	// call the function:
 
 	create_table_function($table_name,$columns);
-?>
 
-<?php 
 	// create orders table
 	$table_name = "orders";
-	$columns = "id int(15) NOT NULL AUTO_INCREMENT,customer_id varchar(225), tracking_id varchar(225), regdate datetime, processing int(2) NOT NULL, shipped int(2) NOT NULL, fulfilled int(2) NOT NULL, grand_total int(2) NOT NULL, PRIMARY KEY(id) ";
+	$columns = "id int(15) NOT NULL AUTO_INCREMENT,customer_id varchar(225), tracking_id varchar(225), regdate datetime, processing int(2) NOT NULL, shipped int(2) NOT NULL, fulfilled int(2) NOT NULL, grand_total int(2), PRIMARY KEY(id) ";
 
 	create_table_function($table_name,$columns);
 
