@@ -36,8 +36,9 @@
 	// get the amount of money that the registered customer has in their wallet
 	$get_wallet_balance = mysqli_query($config,"select * from wallet where customer_id='$customer_id' ");
 	$wallet_balance= mysqli_fetch_assoc($get_wallet_balance);
-	if ($wallet_balance < 0) {
+	if ($wallet_balance < 0 or empty($wallet_balance)) {
 		$wallet_balance = 0.00;
+
 	}
 ?>
 
