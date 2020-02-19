@@ -9,7 +9,7 @@
 		<div class="col-lg-6 mb-4">
 			<div class="card">
 				<div class="card-header alert alert-info">
-					
+					<img class="responsive img-responsive" height="50" width="50" src="images/favicon.png">
 				</div>
 				<div class="card-body">
 					This coupon
@@ -36,7 +36,7 @@
 	<div class="alert alert-info py-5 text-center">
 		<section class="py-5">
 			you have no coupons. when you do , they will appear here<br>
-			click <a href="#">here</a> to return to your dashboard
+			click <a href="dashboard.php">here</a> to return to your dashboard
 		</section>
 	</div>
 	<?php endif;?>

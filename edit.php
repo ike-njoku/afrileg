@@ -1,245 +1,142 @@
-<?php include("include/header.php");?>
-
+<?php include("include/header.php"); if(empty($customer_id)){header("location:index.php"); } ?>
 <?php 
-	// update the shipping address
+	$err="";
+	// Password Change
+	if (isset($_POST['check_old_password'])) {
+		$current_password="";
+		// ensure that this code only runs if the form is not empty
+		if ($current_password != " ") {
+			
+			$current_password = crc32(md5(md5($_POST['old_password'])));
+			// echo crc32(md5(md5($_POST['check_old_password'])));
+			// compare the entered password with the password from the data base
+			$password_check = mysqli_query($config,"select * from customers where id ='$customer_id' and password='$current_password'");
+			if (mysqli_num_rows($password_check) ) {
+				// redirect the page to the actual page where the password change is done
+				header("location:change_password.php");
 
-	if (isset($_POST['change_delivery_address'])) {
-		
-		$firstname;
+			}else{
+				$err = '<div class="alert alert-warning mb-2 small sm text-center">You have entered an invalid password </div>' ;
+			}
+		}
 	}
 ?>
-
-<?php 
-	// change password
-	if (isset($_POST['change_password'])) {
-
-		$password_1=$_POST['password_1'];
-		$password_2=$_POST['password_2'];
-
-		if ($password_1 == $password_2) {
-			
-		
-			$old_password = crc32(md5(md5($_POST['old_password'])));
-			$new_password = crc32 (md5(md5($_POST['password_2'])));
-
-			// check if password_1 and password_2 are the same before inserting password_2 into db
-
-
-			// check if the old password is correct and rhymes with the customer_email
-			$check_password = mysqli_query($config,"select * from customers where id='$customer_id' and password ='$old_password'");
-			if (mysqli_num_rows($check_password)) {
-				
-				// update the old password to the new password
-				$update_password = mysqli_query($config,"update customers set password='$new_password' where id='$customer_id'");
-				if (mysqli_affected_rows($config)) {
-					$error_message = '<div class="alert alert-info">Your password was successfully updated</div>';
-				}else{$error_message= '<div class="alert alert-warning">update unsuccessful</div>';}
-
-
-			}else{$error_message='<div class="alert alert-warning"> invalid password</div>';}
-
-			
-		}else{$error_message='<div class="alert alert-warning">Your passwords do not match. please correct this and retry</div>' ;}
-	
-	}else{$error_message ="";}
-
-?>
-
-
-<?php
-	// get the customer details from the delivery cart
-	$delivery_details = mysqli_query($config, "select * from delivery_details where customer_id = '$customer_id' ");
-	$delivery = mysqli_fetch_assoc($delivery_details);
-?>
-
 <section class="py-5"></section>
-<div class="container">
+<div class="container-fluid">
+	
 	<div class="row">
-		<div class="col-md-3"></div>
-		<div class="col-md-5 mb-4 ">
+		<!-- edit customer delivery details -->
+
+		<div class="col-md-6 mb-4">
 			<div class="card">
-				<div class="card-header alert alert-info text-center">
-					<form method="post" class="form-group">
-						<a href="#"><img id="display_avatar" height="150" width="150"class="rounded-circle"src="<?php if(empty($customer['avatar'])){echo 'images/avatar.png';}else{echo $customer['avatar'];} ?>"></a>
-						<div>
-							<hr>
-							<input style="display:none;"type="file" name="avatar" value="<?php echo $customer['avatar'] ;?>" >
-						</div>
-				</div>
-					<div class="card-body text-center">
-						<div class=" text-left">
-							<div class="row">
-								<div class="col-md-12 col-lg-6">
-									<label class="sr" for="firstname">First Name
-										<input value="<?php if(empty($delivery['firstname'])){echo"null";}else{echo $delivery['firstname'];} ;?>" class="form-control" type="text" name="firstname">
-									</label>
-								</div>
-								<div class="col-md-12 col-lg-6">
-									<label class="sr" for="lastname">Last Name
-										<input value="<?php if(empty($delivery['lastname'])){echo"null";}else{echo $delivery['lastname'];} ;?>" class="form-control" type="text" name="lastname">
-									</label>
-								</div>
-							</div>
-							<div class="row">
-								<div class="col-md-12 col-lg-6">
-									<label class="sr" for="lastname">Mobile
-										<input value="<?php if(empty($delivery['mobile'])){echo"null";}else{echo $delivery['mobile'];}?>" class="form-control" type="text" name="mobile">
-									</label>
-								</div>
-								<div class="col-md-12 col-lg-6">
-									<label class="sr" for="address">Address
-										<input value="<?php if(empty($delivery['address'])){echo"null";}else{echo $delivery['address'];}?>" class="form-control" type="text" name="address">
-									</label>
-								</div>
-							</div>
-							<div class="row">
-								<div class="col-md-12 col-lg-6">
-									<label>City
-										<input value="<?php if(empty($delivery['city'])){echo"null";}else{echo $delivery['city'];}?>" class="form-control" type="text" name="">
-									</label>
-								</div>
-								<div class="col-md-12 col-lg-3">
-									<label>State
-										<select class="form-control">
-											<option class="form-control">
-												Lagos
-											</option>
-										</select>
-									</label>
-								</div>
-								<div class="col-md-12 col-lg-3">
-									<label>Zip
-										<input value="<?php if(empty($delivery['zip'])){echo"null";}else{echo $delivery['zip'];}?>" class="form-control" type="text" name="">
-									</label>
-								</div>
-							</div>
-							<div class="row">
-								<div class="col-md-12 col-lg-6">
-									<label>Email
-										<input value="<?php if(empty($delivery['email'])){echo"null";}else{echo $delivery['email'];}?>" class="form-control" type="email" name="email">
-									</label>
-								</div>
-								<div class="col-md-12 col-lg-6">
-									<label class="sr" for="country">Country
-										<select class="form-control">
-											<option class="form-control">
-												Nigeria
-											</option>
-										</select>
-									</label>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="card-footer">
-							<button name="change_delivery_address" class="btn btn-sm btn-outline-info">update delivery address</button>
-						</div>
-					</form>
-			</div>
-		</div>
-		<div class="col-md-4">
-			<!-- change  password -->
-			<div class="card">
-				<div class="card-header py-5  alert-info">
-					<h4>Change Password</h4>
+				<div class="py-5 card-header badge-info">
+					<h1>Delivery Details <i class="ti-location-pin "></i> </h1>
 				</div>
 				<div class="card-body">
-					<div class="progress" id="error_messages"><?php echo $error_message ;?>
-						<div class="badge-success" style="display: none;width: 30%;" id="contains_caps" class="col-sm-3"> capital letter</div>
-						<div class="badge-success" style="display: none;width: 30%;" id="contains_num" class="col-sm-3">contains number</div>
-						<div class="badge-success" style="display: none;width: 30%;" id="six_characters" class="col-sm-3">atleast six charaters</div>
-					</div>
-					<form method="post" class="form-group">
-						<input name="old_password" type="password" class="form-control mb-2" placeholder="Enter current password" required>
-
-<br>
-						<input type="password" name="password_1" id="password_1" class="form-control mb-2" placeholder="New Password" required>
-						<input type="password" name="password_2" id="password_2" class="form-control mb-2" placeholder="Re-type new password"required>
-					
+					<form>
+						<div class="row">
+							<div class="col-md-6">
+								<label for="firstname" > First Name</label>
+									<input class="form-control" type="text" name="firstname">	
+							</div>
+							<div class="col-md-6">
+								<label for="lastname"> Last Name </label>
+								<input class="form-control" type="text" name="lastname">			
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-6">
+								<label for="mobile">Mobile</label>
+								<input class="form-control" type="text" name="mobile">
+							</div>
+							<div class="col-md-6">
+								<label for="address">Address</label>
+								<input class="form-control" type="text" name="address">
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-6">
+								<label for="city" >City</label>
+								<input class="form-control" type="text" name="city">
+							</div>
+							<div class="col-md-6">
+								<label for="state" >Country</label>
+								<select name="state" class="form-control">
+									<option value="" class="form-control">
+										Nigeria
+									</option>
+									<option value="" class="form-control">
+										Ghana
+									</option>
+								</select>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-6">
+								<label for="email"> Email</label>
+								<input class="form-control" type="email" name="email" required>
+							</div>
+							<div class="col-md-3">
+								<label for="zip" >Zip </label>
+								<input class="form-control" type="text" name="zip">
+							</div>
+							<div class="col-md-3">
+								<label for="state" >State</label>
+								<select name="state" class="form-control">
+									<option value="" class="form-control">
+										Abuja
+									</option>
+								</select>
+							</div>
+						</div>	
 				</div>
-				<div class="card-footer">
-					<button name="change_password" id="change_password" class="btn btn-sm btn-outline-info">change</button>
-				</div>
-				</form>
-			</div>
+					</form>
 		</div>
 	</div>
+		<!-- change user password -->
+		<div class="col-md-6">
+			<div class="card">
+				<div class="text-center card-header py-5 alert alert-info">
+					<h1><b>Change Password</b></h1>
+				</div>
+				<div class="card-body">
+					<form class="form-group" method="post"> 
+						<div class="">
+							<!-- display error messages -->
+							<?php echo $err;?>
+							<label class="sr" for="old_password">Current Password</label>
+							<input id="old_password" class="form-control" type="password" name="old_password">
+						</div>
+						<div class="text-right">
+							<hr class="hr">
+							<button id="submit_password_button" type="Submit" name="check_old_password" class="btn btn-primary btn-sm btn-small">
+								Submit
+							</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+		<!-- change password ends here -->
+	</div>
 </div>
+<?php 
+// hide the submit button if the "change password" form is empty
+?>
+<script type="text/javascript">
+	// hide the submit button by default
+	document.getElementById("submit_password_button").style.display ="none";
+	// create function to toggle between hiding and displaying the button
+	document.getElementById('old_password').addEventListener("keyup",function(){
+		if (document.getElementById("old_password").value.length ==0){
+			// hide the submit button;
+			document.getElementById("submit_password_button").style.display ="none";
+		}else{
+			// else display the password
+			document.getElementById("submit_password_button").style.display ="inline";
+		}
+	})
+</script>
 <?php include("include/footer.php");?>
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<script type="text/javascript">
-
-	//validagte password_strength:
-	document.getElementById("password_1").addEventListener("keyup",function(){
-		var password_1 = document.getElementById("password_1").value;
-
-		var characterss = password_1.split();
-
-		// create an array of numbers
-		var numberss = [1,2,3,4,5,6,7,8,9,0];
-		 // if the character is in the array of numbers
-
-		
-
-
-		if (password_1.length >= 6) {document.getElementById("six_characters").style.display="inline"; return true;}else{ return false;}
-		
-	})
-
-
-
-
-
-
-
-	document.getElementById("password_2").addEventListener("keyup",function(){
-		var password_1 = document.getElementById("password_1").value;
-		var password_2 = document.getElementById("password_2").value;
-
-
-		if (password_1 != password_2) {
-
-			document.getElementById("error_messages").innerHTML = "passwords do not match";return(false);
-
-		}else{
-			document.getElementById("error_messages").innerHTML = "passwords match";
-
-		}
-
-	})
-</script>
-
-
-<script type="text/javascript">
-	document.getElementById("display_avatar").addEventListener("click",function(){window.alert("hellow world")})
-</script>

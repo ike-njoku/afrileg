@@ -117,7 +117,6 @@
 
 			//update the quantity of the product in the cart from the input 
 			document.getElementById("'.$product['id'].'quantity").addEventListener("keyup",function(){
-
 				var update_quantity_request;
 				if(window.XMLHttpRequest){update_quantity_request = new XMLHttpRequest();}else{ update_quantity_request = new ActiveXObject("Microsoft.XMLHTTP");}
 				update_quantity_request.open("GET","include/update_quantity_request.php?product_id='.$g_product['id'].'&qty="+document.getElementById("'.$product['id'].'quantity").value,true);
@@ -139,6 +138,9 @@
 
 					if(reset_cart_total_request.status==200 && reset_cart_total_request.readyState==4){
 						document.getElementById("display_total").innerHTML = reset_cart_total_request.responseText;
+					}else{
+						// refresh the page
+						window.location.assign("cart.php");
 					}
 				}
 				reset_cart_total_request.send();
@@ -156,28 +158,22 @@
 		 		if(update_row_total_request.readyState==4 && update_row_total_request.status==200)
 		 		{
 		 			document.getElementById("hello_'.$product_id.'").innerHTML = update_row_total_request.responseText;
+		 		}else{
+		 			// refresh the page
+		 			window.location.assign("cart.php");
 		 		}
 		 	}
 		 	update_row_total_request.send();
 				
 		 })
 
-
-
-
-
-
 		</script>
-
-		
 										'										
 									;}
 
 								}else {$err = '<div class="mt-4 w-100 alert alert-info py-5"><section class="py-5"> <h3 class="lead">You do not have any items in your cart</h3></section> <a href="shop.php"class=" btn btn-small btn-outline-secondary m-1"><i class="far fa-arrow-alt-circle-left"></i>   shop</a> </section></div> ';}
 
-
 								?>
-							
 							</tbody>
 							<td>
 								<b>Cart Total</b>

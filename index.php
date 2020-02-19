@@ -32,16 +32,16 @@
           </div>
           <h4>giftcards</h4>
           <p class="lead">
-            your smiles keep us going. therefore, constantly work round the clock to ensure you are satisfied with our services. get coupons codes to keep you smiling 
+            your smiles keep us going. therefore, we constantly work round the clock to ensure you are satisfied with our services. get coupons codes to keep you smiling 
           </p>
         </div>
         <div class="col-md-4 text-center animated">
           <div class="icon">
             <h1 class=" ti-truck "></h1>
           </div>
-          <h4>free world-wide delivery</h4>
+          <h4>free Delivery</h4>
           <p class="lead">
-            Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.
+            Enjoy free delivery within Nigeria and various other selected locations and highly discounted delivery rates to locations around the world.
           </p>
         </div>
         <div class="col-md-4 text-center"> 
@@ -50,7 +50,7 @@
           </div>
           <h4>Secure Payments </h4>
           <p class="lead">
-            Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.
+            We Leave the Security to the professionals. All your payments are secured by Rave by Flutterwave. Welcome to a secure payment option.
           </p>
         </div>
       </div>

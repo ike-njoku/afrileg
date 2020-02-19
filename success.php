@@ -7,20 +7,56 @@
 		header("location:index.php");
 		return;
 	}
-	*/
-	
+	*/	
 ?>
-
 <?php include("include/header.php");?>
 <section class="py-5"></section>
 <div class="container">
 	<div  class="text-center py-5">
+
 		<img src="images/tick-loop-1.gif"><br><br>
+
+		<?php
+			// action to take if the user just updated their password
+			if (isset($_GET['password_update'])) {
+					echo "your password update was successful";
+					echo "<br>";
+					echo "click <a href='dashboard.php'>here</a> to return to your dashboard";
+				// include the footer and close the page
+					echo "<div class=''></div>";
+				echo("</div></div>");
+				include("include/footer.php");
+				return;
+			}
+		?>
+
+		<?php 
+		
+			// action to take if the person only tried to fund their wallet
+			// check if the person just funded his wallet
+				if (isset($_GET['mthd'])) {
+					if($_GET['mthd']="fund_walllet")
+					{
+						echo "Your payment has been received, and your wallet ballance has been topped up. Please click here to return to dash board";
+						// close the page;
+						
+						// include the footer and close the page
+						include("include/footer.php");
+						// ignore all the other codes
+						return;
+
+					}
+				}
+				
+		
+		?>
 		<h6>Your Order Was Successful. <br>
 		please click <a href="shop.php">here </a> to return to our shop</h6>
 
-<?php 
 
+
+<?php 
+	
 	// avoid double entry ie, return if the cart is empty
 	$get_products = mysqli_query($config,"select * from cart where customer_id = '$customer_id' and purchased ='0' ");
 	if (mysqli_num_rows($get_products)) {
@@ -50,6 +86,7 @@
 					$update_wallet = mysqli_query($config, "update wallet set amount ='$new_wallet_balance' where customer_id ='$customer_id' ");
 
 				}
+				
 			}
 
 
@@ -76,24 +113,27 @@
 
 		$referer_id = $customer['referer_id'];
 
-		$referer_wallet_check = mysqli_query($config,"select * from wallet where customer_id ='$referer_id' ");
+		if(($referer_id >0) or (!empty($referer_id)))
+		{
 
-		if (mysqli_num_rows($referer_wallet_check)>0) { #ie the referer already has money in his wallet
-			
-			// add the referer bonus to what is already in the wallet
-			$update_referer_wallet = mysqli_query($config,"update wallet set amount = (amount + $referer_bonus) where customer_id ='$referer_id' ");
-		}else{
+			$referer_wallet_check = mysqli_query($config,"select * from wallet where customer_id ='$referer_id' ");
 
-			//ie if the referer is new to the wallet system, insert his name and give him referer_bonus
-			$insert_referer = mysqli_query($config,"insert into wallet(customer_id,amount) values('$referer_id','$referer_bonus') ");
-
+			if (mysqli_num_rows($referer_wallet_check)>0) { #ie the referer already has money in his wallet
 				
+				// add the referer bonus to what is already in the wallet
+				$update_referer_wallet = mysqli_query($config,"update wallet set amount = (amount + $referer_bonus) where customer_id ='$referer_id' ");
+			}else{
 
+				//ie if the referer is new to the wallet system, insert his name and give him referer_bonus
+				$insert_referer = mysqli_query($config,"insert into wallet(customer_id,amount) values('$referer_id','$referer_bonus') ");
+
+					
+
+			}
 		}
-		
 	}
 
-		// coupons
+		// give coupons
 		$coupon =0;
 		if ($cart_total>=12000) {
 

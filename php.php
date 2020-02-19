@@ -3,7 +3,7 @@
 ?>
 
 
-<?php 
+<?php /*
 	function create_table_function($table_name,$columns)
 	{
 		//you have to specify the names of the table and columns that you want to create
@@ -30,26 +30,35 @@
 			echo $table_name. " unable to create table at this momnet <br>";
 		}
 	}
+	*/
 ?>
 
 <?php 
-	// create table for wallet
-	$table_name = "wallet";
-	$columns = "id int(16) NOT NULL AUTO_INCREMENT, customer_id varchar(225), amount varchar(225), PRIMARY KEY(id) ";
-	// call the function:
+	/*
+		// create table for wallet
+		$table_name = "wallet";
+		$columns = "id int(16) NOT NULL AUTO_INCREMENT, customer_id varchar(225), amount varchar(225), PRIMARY KEY(id) ";
+		// call the function:
 
-	create_table_function($table_name,$columns);
+		create_table_function($table_name,$columns);
 
-	// create orders table
-	$table_name = "orders";
-	$columns = "id int(15) NOT NULL AUTO_INCREMENT,customer_id varchar(225), tracking_id varchar(225), regdate datetime, processing int(2) NOT NULL, shipped int(2) NOT NULL, fulfilled int(2) NOT NULL, grand_total int(2), PRIMARY KEY(id) ";
+		// create orders table
+		$table_name = "orders";
+		$columns = "id int(15) NOT NULL AUTO_INCREMENT,customer_id varchar(225), tracking_id varchar(225), regdate datetime, processing int(2) NOT NULL, shipped int(2) NOT NULL, fulfilled int(2) NOT NULL, grand_total int(2), PRIMARY KEY(id) ";
 
-	create_table_function($table_name,$columns);
+		create_table_function($table_name,$columns);
 
 
-	// create coupons table;
-	$table_name = "coupons";
-	$columns = "id int(15) NOT NULL AUTO_INCREMENT, customer_id varchar(225), used int(2)NOT Null, code varchar(30), order_id varchar(225), value varchar(225), event varchar(225), PRIMARY KEY(id) ";
-	create_table_function($table_name,$columns);
+		// create coupons table;
+		$table_name = "coupons";
+		$columns = "id int(15) NOT NULL AUTO_INCREMENT, customer_id varchar(225), used int(2)NOT Null, code varchar(30), order_id varchar(225), value varchar(225), event varchar(225), PRIMARY KEY(id) ";
+		create_table_function($table_name,$columns);
+	*/
 ?>
 
+<?php
+	$lists = "123456";
+	$a =str_split($lists);
+	end($a);
+	echo current($a);
+?>

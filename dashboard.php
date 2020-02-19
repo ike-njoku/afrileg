@@ -18,6 +18,7 @@
 	}
 ?>
 <?php
+	// uploading profile image
 	if (isset($_POST['upload'])) {
 
 		$updating = mysqli_query($config,"update customers set avatar ='$target' where id='$customer_id' ");
@@ -36,10 +37,9 @@
 	// get the amount of money that the registered customer has in their wallet
 	$get_wallet_balance = mysqli_query($config,"select * from wallet where customer_id='$customer_id' ");
 	$wallet_balance= mysqli_fetch_assoc($get_wallet_balance);
-	if (($wallet_balance < 0)||($wallet_balance = "")) {
-		$wallet_balance = 0.00;
-
-	}
+	if (($wallet_balance['amount'] < 0) || (empty($wallet_balance))) {
+		$wallet_balance = "0.00";
+	}else{$wallet_balance = $wallet_balance['amount'];}
 ?>
 
 
@@ -47,7 +47,7 @@
 <div class="container-fluid">
 	<div class="p-2 d-flex justify-content-between">
 		<div><h3> Welcome, <?php echo $customer['username'];?></h3> </div>
-		<div class="lead"><b>wallet balance:<i class="ti-wallet"></i> <?php echo $wallet_balance['amount'];?></b></div>
+		<div class="lead"><b>wallet balance: NGN<?php echo $wallet_balance;?></b></div>
 	</div>
 	<div class="row text-center mb-4 py-2">
 		<div class="col-md-4 py-5">
@@ -116,11 +116,11 @@
 				<div class="card-body">
 					<a href="coupons.php">my coupons </a>
 					<hr>
-					<a href="#">Buy Gift Card</a>
+					<a href="coming_soon.php">Buy Gift Card</a>
 					<hr>
 					<a href="referal.php">Referals</a>
 					<hr>
-					<a href="#">Become an Ambassador</a>
+					<a href="coming_soon.php">Become an Ambassador</a>
 				</div>
 			</div>
 		</div>
@@ -128,20 +128,15 @@
 	</div>
 </div>
 
-
-
-
-
-
-
-
-
-
-
+<?php
+/*	update your profile photo
 <div>
 	<form method="post" enctype="multipart/form-data">
 		<input type="file" name="avatar">
 		<button name="upload" type="submit">upload image</button>
 	</form>
+*/
+?>
 </div>
+
 <?php include("include/footer.php");?>

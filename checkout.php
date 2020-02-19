@@ -17,6 +17,7 @@
 	}
 ?>
 <?php	
+	// initialise the value of the customer's wallet balance to zero
 	$wallet_balance=0;
 	// select products from cart
 	$get_products = mysqli_query($config,"select * from cart where customer_id = '$customer_id' and purchased ='0' ");
@@ -201,7 +202,6 @@
 				</div>
 			</div>
 		</div>
-
 		<!-- end of delivery details -->
 	</div>
 </div>
@@ -258,5 +258,5 @@
             }
         });
     }
-
+    
 </script>
