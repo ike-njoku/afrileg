@@ -69,33 +69,13 @@ echo'       </div>
     update_request.onreadystatechange = function()
     {
       if(update_request.readyState==4 && update_request.status==200)
-      {document.getElementById("cart_items").innerHTML = update_request.responseText ;} else{updateheader();}
+      {document.getElementById("cart_items").innerHTML = update_request.responseText ;} else{
+        // window.location.assign("index.php");
+      }
 
     }
     update_request.send();
   })
-
-// incase update_request.status is not 200
-function updateheader(){
-
-  var add_button = document.getElementById("product_'.$product['id'].'");
-  add_button.addEventListener("click",function(update_header){
-
-    var update_request;
-    if(window.XMLHttpRequest){update_request = new XMLHttpRequest(); }else{update_request = new ActiveXObject("Microsoft.XMLHTTP");}
-
-    update_request.open("GET","include/update_header.php?product_id='.$product_id.'",true)
-    update_request.onreadystatechange = function()
-    {
-      if(update_request.readyState==4 && update_request.status==200)
-      {document.getElementById("cart_items").innerHTML = update_request.responseText ;}
-
-    }
-    update_request.send();
-  })
-
-}
-
 </script> 
 '
 ;?>
