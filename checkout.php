@@ -171,7 +171,7 @@
 											</div>	
 											<div style="display: none;" id="confirm_wallet_pay" class="mt-4 mb-4">
 												<?php if(($grand_total > $amount_in_wallet) or ($wallet_balance - $grand_total >= 0)):?>
-												you do not have enough funds to complete this purchase. please try a different payment method Or click <a href="#">here</a> to fund your wallet.
+												you do not have enough funds to complete this purchase. please try a different payment method Or click <a href="fund_wallet.php">here</a> to fund your wallet.
 												<?php else:?>
 													the sum of <b>NGN<?php echo $grand_total;?></b> will be deducted from your wallet. click <a href="success.php?mtd=wallet"> here</a> to confirm.
 												<?php endif;?>

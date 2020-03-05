@@ -36,11 +36,59 @@
 			// check if the person just funded his wallet
 				if (isset($_GET['mthd'])) {
 					if($_GET['mthd']="fund_walllet")
-					{
-						echo "Your payment has been received, and your wallet ballance has been topped up. Please click here to return to dash board";
+					{	
+						// define new balance to be zero
+						$new_balance = 0;
+						echo "Your payment has been received, and your wallet ballance has been topped up. Please click here to return to dash board <br>";
+						
+
+						// update the user's wallet balance
+						$get_amount_funded= mysqli_query($config,"select * from fund_wallet where customer_id='$customer_id' and paid='0' ");
+						if (mysqli_num_rows($get_amount_funded)<1) {
+							header("location:index.php");
+						}
+						$amount_funded = mysqli_fetch_assoc($get_amount_funded);
+						$funded_amount = $amount_funded['amount'];
+
+
+						// get the customer's current wallet balance
+						$get_current_balance = mysqli_query($config,"select * from wallet where customer_id ='$customer_id' ");
+						$current_balance = mysqli_fetch_assoc($get_current_balance);
+						$wallet_balance = $current_balance['amount'];
+
+						
+						
+						// update the persons wallet balance with the amount-funded
+						$update_wallet_balance = mysqli_query($config,"update wallet set amount ='$new_balance' where customer_id='$customer_id' ");
+						if (mysqli_affected_rows($config)>0) {
+							// change "paid from 0 to 1 in the fund_wallet table "
+
+							$update_fund_wallet_table = mysqli_query($config,"update fund_wallet set paid='1', regdate = NOW() where customer_id ='$customer_id' and paid='0' ");
+							if (mysqli_affected_rows($config)>0) {
+								// new balance
+								$new_balance = $wallet_balance + $funded_amount;
+								echo "your new wallet balance is : NGN";
+								echo $new_balance;
+						
+							}else{
+								echo "we are currently experiencing a server-side lag. Please contace our team for help";
+							}
+
+						}else{
+							$update_fund_wallet_table = mysqli_query($config,"update fund_wallet set paid='1', regdate =NOW() where customer_id ='$customer_id' and paid='0' ");
+							if (mysqli_affected_rows($config)>0) {
+								// new balance
+								$new_balance = $wallet_balance + $funded_amount;
+								echo "your new wallet balance is : NGN";
+								echo $new_balance;
+						
+							}
+							
+						}
 						// close the page;
 						
-						// include the footer and close the page
+						// include the footer and close the page;
+						echo "</div></div>";
 						include("include/footer.php");
 						// ignore all the other codes
 						return;
@@ -153,7 +201,12 @@
 			}
 		}
 
-	}else{return;}
+	}else{
+		// close the page and include the footer
+		echo "</div></div>";
+		include("include/footer.php");
+		return;
+	}
 
 	$user = '';
 	// give allowance for people who are not registered customers to buy

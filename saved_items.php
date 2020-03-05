@@ -8,11 +8,11 @@
 		
 		<?php include("include/category.php");?>
 			<!-- categories list ends here -->
-			
+
 				<div id="display_err"></div>
 				<div class="row">
 					<!-- display saved items -->
-					<?php $saved_items = mysqli_query($config,"select * from saved_items where customer_id = '$cusid' ");
+					<?php $saved_items = mysqli_query($config,"select * from saved_items where customer_id = '$customer_id' and customer_type='$customer_type' ");
 						if (mysqli_num_rows($saved_items)<1) {
 							echo  '<div class="text-center alert alert-info py-5 w-100 m-2"><section class="py-5">YOU HAVE NO SAVED ITEMS</section></div>';
 							
@@ -28,8 +28,18 @@
 
 								// display which products are in your cart by tick
       							// /// display which products are in your cart by tick
-								$tick = "";  
-							    $tick_products = mysqli_query($config,"select * from cart where customer_id = '$cusid' and product_id = '$product_id' "); 
+								$tick = "";
+
+							    // check if the person is a registered customer or a guest
+							    if (isset($_SESSION['id'])) {
+							      $customer_id = $_SESSION['id'];
+							      $customer_type ="customer";
+							    }else{
+							      $customer_id = $_COOKIE['guest_id'];
+							      $customer_type ='guest';
+							    }
+
+							    $tick_products = mysqli_query($config,"select * from cart where customer_id = '$customer_id' and product_id = '$product_id' and purchased='0' and customer_type='$customer_type' "); 
 							    if (mysqli_num_rows($tick_products)) {
 							      $tick = '<span class="far fa-check-circle success"></span>';
 							    }

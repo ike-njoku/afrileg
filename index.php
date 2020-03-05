@@ -72,8 +72,16 @@
 
       // display which products are in your cart by tick
       // /// display which products are in your cart by tick
-    $tick = "";  
-    $tick_products = mysqli_query($config,"select * from cart where customer_id = '$customer_id' and product_id = '$product_id' and purchased='0' "); 
+    $tick = "";
+
+    // check if the person is a registered customer or a guest
+    if (isset($_SESSION['id'])) {
+      $customer_id = $_SESSION['id'];
+    }else{
+      $customer_id = $_COOKIE['guest_id'];
+    }
+
+    $tick_products = mysqli_query($config,"select * from cart where customer_id = '$customer_id' and product_id = '$product_id' and purchased='0' and customer_type='$customer_type' "); 
     if (mysqli_num_rows($tick_products)) {
       $tick = '<span class="far fa-check-circle success"></span>';
     }

@@ -31,8 +31,8 @@
 									 $err =""; # error message for an empty cart
 									 $cart_total = 0; #initialise the value of the cart total
 									// select products from cart
-									$select_product = mysqli_query($config,"select * from cart where customer_id = '$cusid' and purchased='0' " );
-									if(mysqli_num_rows($select_product) and (!empty($_SESSION['id'])) )
+									$select_product = mysqli_query($config,"select * from cart where customer_id = '$customer_id' and purchased='0' and customer_type='$customer_type' " );
+									if(mysqli_num_rows($select_product) )
 									{
 										while ($product = mysqli_fetch_array($select_product))
 											{ 	$product_id = $product['product_id']; #get the product id of the product
@@ -84,7 +84,7 @@
 				if (window.XMLHttpRequest){delete_item = new XMLHttpRequest(); } else{delete_item =new ActiveXObject("Microsoft.XMLHTTP");}
 				delete_item.open("GET","include/delete_from_cart.php?customer_id='.$customer_id.'&product_id='.$product_id.'&quantity='.$quantity.'",true);
 				delete_item.readystatechange = function(){
-					if(delete_item.readyState == 4 && xmlhttp.status == 200 ){window.alert(delete_item.responseText);}
+					if(delete_item.readyState == 4 && delete_item.status == 200 ){window.alert(delete_item.responseText);}
 				}
 				delete_item.send();
 			})
@@ -191,7 +191,7 @@
 						</table>
 						<!-- continue to shopping or check out -->
 					<?php 
-						$search_cart = mysqli_query($config,"select * from cart where customer_id = '$cusid' and purchased='0' " );
+						$search_cart = mysqli_query($config,"select * from cart where customer_id = '$customer_id' and purchased='0' and customer_type='$customer_type' " );
 						if (mysqli_num_rows($search_cart)>0) {
 							echo '
 					<div id="save_and_continue">
