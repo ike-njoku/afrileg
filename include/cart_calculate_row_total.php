@@ -8,11 +8,15 @@
 	// get customer_id
 	if (isset($_SESSION['id'])) {
 		$customer_id = $_SESSION['id'];
+		$customer_type = 'customer';
+	}else{
+		$customer_id = $_COOKIE['guest_id'];
+		$customer_type ='guest';
 	}
 ?>
 
 <?php
-$select_product = mysqli_query($config,"select * from cart where customer_id = '$customer_id' and purchased='0' " );
+$select_product = mysqli_query($config,"select * from cart where customer_id = '$customer_id' and purchased='0' and customer_type ='$customer_type'  " );
 	if(mysqli_num_rows($select_product) )
 	{
 		while ($product = mysqli_fetch_array($select_product))

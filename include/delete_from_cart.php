@@ -2,8 +2,13 @@
 	include("connect.php");
 	// select customer
 	if (isset($_SESSION['id'])) {
-		$cusid = $_SESSION['id'];
-		if($customer_select = mysqli_query($config,"select * from customers where id = '$cusid' " ))
+		$customer_id = $_SESSION['id'];
+		$customer_type ='customer';
+	}else{
+		$customer_id = $_COOKIE['guest_id'];
+		$customer_type ='guest';
+	}
+		if($customer_select = mysqli_query($config,"select * from customers where id = '$customer_id' " ))
 			{
 				$customer = mysqli_fetch_assoc($customer_select);
 
@@ -25,7 +30,7 @@
 
 		// update the contents of the cart
 		
-	}		
+			
 		
 
 ?>

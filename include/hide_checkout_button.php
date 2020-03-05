@@ -1,19 +1,25 @@
 <?php session_start();
 	include("connect.php");
 
-	// get customer_details
- 	$cusid = ""; $customer_id = "";
-  	if (isset($_SESSION['id'])) {
-  	$cusid = $_SESSION['id'];
-  	$customer_select = mysqli_query($config,"select * from customers where id='$cusid'");
-  	$customer = mysqli_fetch_assoc($customer_select);
-  	$customer_id = $customer['id'];}
+	if(isset($_SESSION['id'])){
+		// get customer_details
+	 	$cusid = ""; $customer_id = "";
+	  	if (isset($_SESSION['id'])) {
+	  	$customer_id = $_SESSION['id'];
+	  	$customer_select = mysqli_query($config,"select * from customers where id='$cusid'");
+	  	$customer = mysqli_fetch_assoc($customer_select);
+	  	$customer_id = $customer['id'];}
+	  	$customer_type = 'customer';
+	}else{
+		$customer_id = $_COOKIE['guest_id'];
+		$customer_type = "guest";
 
+	}
 
 ?>
  
 <?php 
-	$search_cart = mysqli_query($config,"select * from cart where customer_id = '$customer_id' and purchased='0'");
+	$search_cart = mysqli_query($config,"select * from cart where customer_id = '$customer_id' and purchased='0' and customer_type ='$customer_type'; ");
 	if (mysqli_num_rows($search_cart)<1)
 		{echo'
 			<div class="mt-4 w-100 alert alert-info py-5">

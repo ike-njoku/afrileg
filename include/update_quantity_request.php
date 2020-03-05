@@ -8,6 +8,10 @@
 <?php 
 	if (isset($_SESSION['id'])) {
 		$customer_id = $_SESSION['id'];
+		$customer_type = "customer";
+	}else{
+		$customer_id = $_COOKIE['guest_id'];
+		$customer_type = 'guest';
 	}
 ?>
 
@@ -40,10 +44,10 @@
 				}
 
 				// update the cart
-				$update_cart = mysqli_query($config,"update cart set quantity='$quantity' where customer_id='$customer_id' and purchased='0' and product_id='$product_id' ");
+				$update_cart = mysqli_query($config,"update cart set quantity='$quantity' where customer_id='$customer_id' and purchased='0' and product_id='$product_id' and customer_type ='$customer_type' ");
 
 				// give out the output of the operation
-				$get_new_quantity = mysqli_query($config,"select * from cart where customer_id ='$customer_id' and product_id='$product_id' and purchased='0' ");
+				$get_new_quantity = mysqli_query($config,"select * from cart where customer_id ='$customer_id' and product_id='$product_id' and purchased='0' and customer_type='$customer_type' ");
 				$cart = mysqli_fetch_assoc($get_new_quantity);
 				
 
