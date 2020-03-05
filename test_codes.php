@@ -72,7 +72,7 @@
 
 	// create guests table
 	
-	$table_name ="guests"; #set the table_name
+	$table_name ="gurests"; #set the table_name
 
 	$columns ="
 		id int NOT NULL AUTO_INCREMENT,
