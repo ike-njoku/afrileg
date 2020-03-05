@@ -1,4 +1,13 @@
 <?php include("include/header.php");?>
+<?php 
+	if (isset($_SESSION['id'])) {
+		$customer_type ='customer';
+		$customer_id = $_SESSION['id'];
+	}else{
+		$customer_type ='guest';
+		$customer_id =$_COOKIE['guest_id'];
+	}
+?>
 <section class="py-5"></section>
 
 <div class="container-fluid">
@@ -9,7 +18,7 @@
 			<div id="display_products" class="container-fluid">
 				<!-- table of products in cart -->
 				<div class="container ">
-					<table class="table  small">
+					<table id="table" class="table  small">
 						<form method="post">
 							<thead>
 								<th scope="col" >
@@ -140,7 +149,7 @@
 						document.getElementById("display_total").innerHTML = reset_cart_total_request.responseText;
 					}else{
 						// refresh the page
-						window.location.assign("cart.php");
+						window.location.assign("cart.php#table");
 					}
 				}
 				reset_cart_total_request.send();

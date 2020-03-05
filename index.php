@@ -174,6 +174,6 @@
 </section>  
 
 
-
+<?php echo $_COOKIE['guest_id']; ?>
 
 <?php include("include/footer.php");?>

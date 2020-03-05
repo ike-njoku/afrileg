@@ -1,4 +1,14 @@
 <?php include("include/header.php");?>
+<?php 
+	if (isset($_SESSION['id'])) {
+		$customer_id = $_SESSION['id'];
+		$customer_type = 'customer';
+	}else{
+		$customer_id = $_COOKIE['guest_id'];
+		$customer_type ='guest';
+	}
+?>
+
 <section class="py-5" ></section>
 <?php 
 	$amount_in_wallet = 0;
@@ -20,7 +30,7 @@
 	// initialise the value of the customer's wallet balance to zero
 	$wallet_balance=0;
 	// select products from cart
-	$get_products = mysqli_query($config,"select * from cart where customer_id = '$customer_id' and purchased ='0' ");
+	$get_products = mysqli_query($config,"select * from cart where customer_id = '$customer_id' and customer_type='$customer_type' and purchased ='0' ");
 	if (mysqli_num_rows($get_products)) {
 		$cart_total =0;
 		while($cart = mysqli_fetch_array($get_products)){
@@ -155,9 +165,21 @@
 						</a>
 					</div>
 					<div style="float:right;" class="btn-group">
+						<?php if(isset($_SESSION['id'])): ?>
+							<!-- if the person is a registered customer -->
 						<button data-toggle="modal" data-target="#payment_modal" class="btn btn-info btn-outline-secondry">
 							pay Now
 						</button>
+						<?php else:?>
+							<form>
+								<?php 
+								// this is the payment method for rave.flutterwave
+								?>
+							    <script src="https://api.ravepay.co/flwv3-pug/getpaidx/api/flwpbf-inline.js"></script>
+							    <button s class="btn btn-secondary  btn-info" type="button" onClick="payWithRave()">Pay with card <i class="ti-wallet"></i> </button>
+							</form>
+						<?php endif;?>
+						<?php if(isset($_SESSION['id'])): ?>
 						<div id="payment_modal" class="modal fade">
 							<div class="modal-dialog">
 								<div class="modal-content">
@@ -198,6 +220,7 @@
 								</div>
 							</div>
 						</div>
+						<?php endif; ?>
 					</div>
 				</div>
 			</div>
