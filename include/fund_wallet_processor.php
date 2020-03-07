@@ -20,7 +20,7 @@ if (isset($_GET['key'])) {
 	// if there is no such place, then create an entry
 
 	// check the database
-	$check = mysqli_query($config,"select * from fund_wallet where customer_id='$customer_id' ");
+	$check = mysqli_query($config,"select * from fund_wallet where customer_id='$customer_id' and paid='0' ");
 	if (mysqli_num_rows($check)>0) {
 		// update the value of the amount the person is trying to pay
 		$update = mysqli_query($config,"update fund_wallet set amount='$amount_to_fund' where customer_id='$customer_id' and paid ='0' ");
