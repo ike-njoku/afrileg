@@ -23,6 +23,24 @@
   </div>
 </div>
 <?php endif; ?>
+<script type="text/javascript">
+  // this script hides the cookie pop up
+  document.getElementById("hide_cookie_pop_up").addEventListener("click",function(){
+    // first, hide the botton, then update the database to show that this particular or user has dismissed the pop up
+
+    // hide the pop_up
+    document.getElementById("cookie_pop_up").style.display = "none";
+
+    // ajax call to make the update in the database
+    var close_pop_up_request;
+    if (window.XMLHttpRequest) {close_pop_up_request = new XMLHttpRequest();}else{close_pop_up_request = new ActiveXObject("Microsoft.XMLHTTP");}
+    // open the request
+    close_pop_up_request.open("GET","include/close_pop_up_request_processor.php",true);
+
+    // send the request
+    close_pop_up_request.send();
+  })
+</script>
 <!-- Footer -->
 	<div class="container-fluid">
 		<div class="col-sm-12 text-right mt-4">
