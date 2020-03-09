@@ -1,4 +1,4 @@
-
+<?php include("include/connect.php");?>
 <?php 
 	// include("include/connect.php");
 
@@ -205,8 +205,30 @@
 ?>
 
 <?php 
-	include("include/connect.php");
-	$select_new_guest = mysqli_query($config,"select * from guests");
-	$guest_count = mysqli_num_rows($select_new_guest)+1;
-	echo $guest_count;
+	// include("include/connect.php");
+	// $select_new_guest = mysqli_query($config,"select * from guests");
+	// $guest_count = mysqli_num_rows($select_new_guest)+1;
+	// echo $guest_count;
+?>
+
+<?php 
+	// include("include/connect.php");
+
+	// $table_name = "guests";
+	// $empty_table = mysqli_query($config,"truncate $table_name ");
+	// if ($empty_table) {
+	// 	echo "successfully emptied the $table_name table";
+	// }else{
+	// 	echo "unable to truncate table ";
+	// }
+	
+?>
+
+<?php 
+	$create_hide_cookie_pop_up_column = mysqli_query($config,"alter table guests add hide_cookie_pop_up varchar(225) NOT NULL ");
+
+	if ($create_hide_cookie_pop_up_column) {
+		echo "successful";
+	}
+
 ?>
