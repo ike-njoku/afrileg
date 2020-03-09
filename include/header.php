@@ -199,6 +199,7 @@
 
       if(isset($_COOKIE['guest_id'])){
         $guest_id = $_COOKIE['guest_id'];
+        $customer_id = $guest_id;
         $cart_items = "";
         // get guest's cart details
         $customer_type ="guest";
