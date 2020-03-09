@@ -71,14 +71,16 @@
 
       $guest_count = mysqli_query($config,"select * from guests");
         // create the next guest_id
-        $next_guest_id = mysqli_num_rows($guest_count)+1; echo $next_guest_id;
+        $next_guest_id = mysqli_num_rows($guest_count)+1;
         // enter the next guest into the database
         $create_next_guest = mysqli_query($config,"insert into guests (guest_id) values ('$next_guest_id') ") ;
         if (mysqli_affected_rows($config)>0) {
-            $customer_type ="customer";
+            $customer_type ="guest";
             $customer_id = $next_guest_id;
             $guest_id = $next_guest_id;
             setcookie('guest_id',$customer_id, time()+2*24*60*60);
+            $customer_id = $_COOKIE['guest_id'];
+
 
         }else{
           // redirect the page if the entry didnot work so that the guest can try again especially if there is an instance of a clashing id
@@ -225,6 +227,7 @@
               <a class="nav-link" href="shop.php">shop</a>
             </li>
             <li class="nav-item">
+              <?php $cart_items='';?>
               <a class="nav-link" href="cart.php#">cart
                 <span <?php if($cart_items>0): ?> class="badge badge-info"<?php endif;?> id="cart_items">
                   <?php echo $cart_items;?>
