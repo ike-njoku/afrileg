@@ -212,23 +212,36 @@
 ?>
 
 <?php 
-	// include("include/connect.php");
+	
 
-	// $table_name = "guests";
-	// $empty_table = mysqli_query($config,"truncate $table_name ");
-	// if ($empty_table) {
-	// 	echo "successfully emptied the $table_name table";
-	// }else{
-	// 	echo "unable to truncate table ";
-	// }
+	$table_name = "guests";
+	$empty_table = mysqli_query($config,"truncate $table_name ");
+	if ($empty_table) {
+		echo "successfully emptied the $table_name table";
+	}else{
+		echo "unable to truncate table ";
+	}
 	
 ?>
 
 <?php 
-	$create_hide_cookie_pop_up_column = mysqli_query($config,"alter table guests add hide_cookie_pop_up varchar(225) NOT NULL ");
+	
 
-	if ($create_hide_cookie_pop_up_column) {
-		echo "successful";
+	$table_name = "cart";
+	$empty_table = mysqli_query($config,"truncate $table_name ");
+	if ($empty_table) {
+		echo "successfully emptied the $table_name table";
+	}else{
+		echo "unable to truncate table ";
 	}
+	
+?>
+
+<?php 
+	// $create_hide_cookie_pop_up_column = mysqli_query($config,"alter table guests add hide_cookie_pop_up varchar(225) NOT NULL ");
+
+	// if ($create_hide_cookie_pop_up_column) {
+	// 	echo "successful";
+	// }
 
 ?>
