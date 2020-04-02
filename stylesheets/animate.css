@@ -1,0 +1,16 @@
+div{
+	position: relative;
+}
+.animate{
+	-webkit-animation-name: animate; /* Chrome, Safari, Opera */
+    -webkit-animation-duration: 1s; /* Chrome, Safari, Opera */
+    animation-name: animate;
+    animation-duration: 1s;
+	animation-name: animate;
+	animation-duration: 1s;
+}
+
+@-webkit-keyframes animate{
+    0% {top: 30px;}
+    100%{top:0px;}
+}
