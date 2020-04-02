@@ -111,9 +111,31 @@
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
   <link rel="stylesheet" href="vendor/bootstrap/css/style.css">
 
+  <!-- animataion -->
+  <link rel="stylesheet" type="text/css" href="stylesheets/animate.css">
+
 </head>
 
 <body data-spy="scroll" data-target=".navbar" data-offset="50" >
+
+<script type="text/javascript">
+  document.addEventListener("scroll",function add_animation(){
+    // get the element to which an animation is to be added
+    var animatable = document.getElementsByTagName("div");
+    // get the hight of the window:
+    var window_height = window.innerHeight;
+
+    // create a for loop to loop through the animatable divs
+    for (var i = 0; i < animatable.length; i++) {
+
+      var element_position = animatable[i].getBoundingClientRect().top;
+
+      // check if the element position falls within the screen resolution
+      if (window_height > element_position) {animatable[i].classList.add("animate");}
+    }
+
+  })
+</script>
 
 <?php $cusid = ""; $customer_id = "";
   if (isset($_SESSION['id'])):
