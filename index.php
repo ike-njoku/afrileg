@@ -26,7 +26,7 @@
 </section>
 
     <div class="container-fluid">
-      <div class="row p-2 bg-white mt--4">
+      <div class="row p-2 bg-white py-5">
         <div class="col-md-4 text-center">
           <div class="icon">
             <h1 class="ti-gift"></h1>
