@@ -19,13 +19,14 @@
 ;?>
 
 <section class="bg-image-full">
-    <div class="py-5" style="height: 30%;">
-      	<img style="max-width:100%;min-width:100%;max-height:25%;" src="images/slider1.jpg">
+    <div id="landing_div" class="py-5">
+      	<!-- <img style="max-width:100%;min-width:100%;height: 100%" src="images/slider1.jpg"> -->
+        hello world
     </div>
 </section>
 
     <div class="container-fluid">
-      <div class="row slideup p-2 bg-white">
+      <div class="row p-2 bg-white mt--4">
         <div class="col-md-4 text-center">
           <div class="icon">
             <h1 class="ti-gift"></h1>
