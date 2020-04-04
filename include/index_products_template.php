@@ -1,6 +1,6 @@
  <?php echo'
  <!-- product -->
-      <div class="col-sm-6 col-lg-3 mb-4">
+      <div class="col-6 col-sm-6 col-lg-3 mb-4">
         <div class="card mb-2">
           <div class="card-header text-center">
             '.$product['name'].'
