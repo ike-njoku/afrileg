@@ -1,6 +1,6 @@
  <?php echo'
  <!-- product -->
-      <div class="col-xs-6 col-sm-6 col-lg-3 mb-4">
+      <div class="col-6 col-sm-6 col-lg-3 mb-4">
         <div class="card mb-2">
           <div class="card-header text-center">
             '.$product['name'].'
@@ -8,11 +8,11 @@
           <div class="card-body bg-white">
             <a href="view_product.php?product_id='.$product['id'].'"><img style="min-height:200px; max-width:100%;  max-height:200px" class="img-fluid" alt="'.$product['name'].' " src="admin/'.$product['image1'].'" ></a>
           </div>
-          <div class="card-footer">
+          <div class="card-footer sm">
             <div class=" p-1">
               NGN '.$product['price'].' 
             </div>
-            <div>
+            <div class="sm" >
                 <i class="ti-star "></i>
                 <i class="ti-star "></i>
                 <i class="ti-star "></i>
