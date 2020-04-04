@@ -14,3 +14,8 @@ div{
     0% {top: 30px;}
     100%{top:0px;}
 }
+
+
+#landing_div{
+	background-image:url("../images/slider1.jpg");
+}
