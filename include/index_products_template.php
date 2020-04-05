@@ -2,13 +2,13 @@
  <!-- product -->
       <div class="col-6 col-sm-6 col-lg-3 mb-4">
         <div class="card mb-2">
-          <div class="card-header text-center">
+          <div class="card-body text-center">
             '.$product['name'].'
-          </div>
-          <div class="card-body bg-white">
-            <a href="view_product.php?product_id='.$product['id'].'"><img style=" max-width:100%;  max-height:150px" class="img-fluid" alt="'.$product['name'].' " src="admin/'.$product['image1'].'" ></a>
-          </div>
-          <div class="card-footer">
+            <hr>
+          
+              <a href="view_product.php?product_id='.$product['id'].'"><img style=" max-width:100%;  max-height:150px" class="img-fluid" alt="'.$product['name'].' " src="admin/'.$product['image1'].'" ></a>
+          
+          <hr>
             <div class="sm p-1">
               NGN '.$product['price'].' 
             </div>
