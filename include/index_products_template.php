@@ -6,13 +6,13 @@
             '.$product['name'].'
           </div>
           <div class="card-body bg-white">
-            <a href="view_product.php?product_id='.$product['id'].'"><img style="min-height:200px; max-width:100%;  max-height:200px" class="img-fluid" alt="'.$product['name'].' " src="admin/'.$product['image1'].'" ></a>
+            <a href="view_product.php?product_id='.$product['id'].'"><img style=" max-width:100%;  max-height:150px" class="img-fluid" alt="'.$product['name'].' " src="admin/'.$product['image1'].'" ></a>
           </div>
           <div class="card-footer">
-            <div class=" p-1">
+            <div class="sm p-1">
               NGN '.$product['price'].' 
             </div>
-            <div>
+            <div class="sm" >
                 <i class="ti-star "></i>
                 <i class="ti-star "></i>
                 <i class="ti-star "></i>
