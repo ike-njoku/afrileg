@@ -23,13 +23,13 @@
 
 echo'
 				<!--------- product  starts-------->
-		      	<div class=" col-xs-6 col-sm-6 col-lg-4 mb-4">
+		      	<div class=" col-6 col-sm-6 col-lg-4 mb-4">
 		        	<div class="card text-center mb-2">
 		          		<div class="card-header text-center">
 		            	'.$product['name'].'
 		          	</div>
 	          		<div class="card-body bg-white">
-		           	 	<a href="view_product.php?product_id='.$product['id'].'"><img style="min-height:200px; max-width:100%;  max-height:200px" 	class="card-image" alt="'.$product['name'].' " src="admin/'.$product['image1'].'" ></a>
+		           	 	<a href="view_product.php?product_id='.$product['id'].'"><img style="min-height:150px; max-width:100%;  max-height:150px" 	class="card-image" alt="'.$product['name'].' " src="admin/'.$product['image1'].'" ></a>
 		          	</div>
 		          	<div class="card-footer p-1">
 		            	<div class=" p-1">
