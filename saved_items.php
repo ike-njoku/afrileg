@@ -48,7 +48,7 @@
 							 	echo'
 							    
 							 	<!--------- product  starts-------->
-							      	<div id="hide_product_'.$product_id.'" class="col-xs-6 col-sm-6 col-lg-4 mb-4">
+							      	<div id="hide_product_'.$product_id.'" class="col-6 col-sm-6 col-lg-4 mb-4">
 							        	<div class="card text-center mb-2">
 							          		<div class="card-header text-center">
 							          		<div class="text-right"><button id="remove_product_'.$product_id.'" class="btn btn-sm fas fa-times-circle"></button></div>
