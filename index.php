@@ -173,10 +173,5 @@
     </div>
   </div>
 </section>  
-<script type="text/javascript">
-  window.alert(window.innerWidth);
 
-  if (window.innerWidth<490) {document.getElementByClassName('rating').style.display="none";}
-  window.alert(window.innerWidth);
-</script>
 <?php include("include/footer.php");?>
