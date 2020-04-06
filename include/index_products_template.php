@@ -12,7 +12,7 @@
             <div class="sm">
               NGN '.$product['price'].' 
             </div>
-            <div class="sm" >
+            <div class="rating" >
                 <i class="ti-star  sm"></i>
                 <i class="ti-star  sm"></i>
                 <i class="ti-star  sm"></i>
