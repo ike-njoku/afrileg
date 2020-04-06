@@ -21,7 +21,7 @@
 <section class="bg-image-full">
     <div id="landing_div" class="py-5">
       	<!-- <img style="max-width:100%;min-width:100%;height: 100%" src="images/slider1.jpg"> -->
-        hello world
+       
     </div>
 </section>
 
@@ -59,7 +59,7 @@
 
 <!-- new arrivals -->
 <section id="newarrivals" class="py-5">
-  <div class="container-fluid bg-light py-5 text-center">
+  <div id="new_arrivals_div" class="container-fluid bg-light py-5 text-center">
     <h1 class="m-3" > New Arrivals </h1>
     <hr>
     <div class="row">
@@ -173,5 +173,9 @@
     </div>
   </div>
 </section>  
+
+<script type="text/javascript">
+  document.getElementById('new_arrivals_div').style.padding ="2px";
+</script>
 
 <?php include("include/footer.php");?>
