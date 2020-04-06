@@ -2,24 +2,24 @@
  <!-- product -->
       <div class="col-6 col-sm-6 col-lg-3 mb-4">
         <div class="card mb-2">
-          <div class="card-body text-center">
+          <div class="card-body sm text-center">
             '.$product['name'].'
             <hr>
           
               <a href="view_product.php?product_id='.$product['id'].'"><img style=" max-width:100%;  max-height:150px" class="img-fluid" alt="'.$product['name'].' " src="admin/'.$product['image1'].'" ></a>
           
           <hr>
-            <div class="sm p-1">
+            <div class="sm">
               NGN '.$product['price'].' 
             </div>
             <div class="sm" >
-                <i class="ti-star "></i>
-                <i class="ti-star "></i>
-                <i class="ti-star "></i>
-                <i class="ti-star "></i>
-                <i class="ti-star "></i>
+                <i class="ti-star  sm"></i>
+                <i class="ti-star  sm"></i>
+                <i class="ti-star  sm"></i>
+                <i class="ti-star  sm"></i>
+                <i class="ti-star  sm"></i>
             </div>
-            <div class="text-center btn-group ">
+            <div class="text-center">
               <a href="view_product.php?product_id='.$product['id'].'"   class="btn btn-sm btn-outline-secondary">view detail</a>';
 
               if($product['inventory']>0){ echo '
