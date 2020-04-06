@@ -6,7 +6,7 @@
             '.$product['name'].'
             <hr>
           
-              <a href="view_product.php?product_id='.$product['id'].'"><img style=" max-width:100%; height:150px; max-height:150px" class="img-fluid" alt="'.$product['name'].' " src="admin/'.$product['image1'].'" ></a>
+              <a href="view_product.php?product_id='.$product['id'].'"><img style="min-height:150px; max-width:100%; max-height:150px" class="img-fluid" alt="'.$product['name'].' " src="admin/'.$product['image1'].'" ></a>
           
           <hr>
             <div class="sm">
