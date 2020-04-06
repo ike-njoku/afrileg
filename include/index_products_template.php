@@ -19,7 +19,7 @@
                 <i class="ti-star  sm"></i>
                 <i class="ti-star  sm"></i>
             </div>
-            <div class="text-center">
+            <div class="text-center btn-group">
               <a href="view_product.php?product_id='.$product['id'].'"   class="btn btn-sm btn-outline-secondary">view detail</a>';
 
               if($product['inventory']>0){ echo '
