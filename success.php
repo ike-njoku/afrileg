@@ -1,18 +1,14 @@
-<?php /*
-	
-	//  if the refering page does not contain rave.flutterwave (name of the billing service), redirect to  index
-	if (isset($_SERVER['HTTP_REFERER'])and ($_SERVER['HTTP_REFERER']=="http://localhost/afrileg.com/checkout.php" or $_SERVER['HTTP_REFERER']=="http://afrileg.herokuapp.com/checkout.php")) {
-		echo "";
-	}else{
-		header("location:index.php");
-		return;
-	}
-	*/	
-?>
+
 <?php include("include/header.php");?>
 <section class="py-5"></section>
 <div class="container">
 	<div  class="text-center py-5">
+		<?php
+			// get the refering page
+			if (isset($_SERVER['HTTP_REFERER'])) {
+				echo $_SERVER['HTTP_REFERER'];
+			}else{echo "there was no refering page";}
+		 ?>
 
 		<img src="images/tick-loop-1.gif"><br><br>
 
@@ -33,8 +29,12 @@
 		<?php 
 		
 			// action to take if the person only tried to fund their wallet
+
 			// check if the person just funded his wallet
 				if (isset($_GET['mthd'])) {
+					// check the refering page
+
+					
 					if($_GET['mthd']="fund_walllet")
 					{	
 						// define new balance to be zero
@@ -106,7 +106,7 @@
 <?php 
 	
 	// avoid double entry ie, return if the cart is empty
-	$get_products = mysqli_query($config,"select * from cart where customer_id = '$customer_id' and purchased ='0' ");
+	$get_products = mysqli_query($config,"select * from cart where customer_id = '$customer_id' and purchased ='0' and customer_type='$customer_type'");
 	if (mysqli_num_rows($get_products)) {
 		$cart_total =0;
 		while($cart = mysqli_fetch_array($get_products)){
@@ -150,7 +150,7 @@
 	// check if the customer is in the orders table. if the customer is there,ignore it
 	// else,  it means that the customer has never bought anything before and this is his first purchase. so we will now give the referer 5% of the customer's first purchase
 
-	$check_if_first_purchase = mysqli_query($config,"select * from orders where customer_id='$customer_id' ");
+	$check_if_first_purchase = mysqli_query($config,"select * from orders where customer_id='$customer_id' and customer_type ='$customer_type' ");
 	if (mysqli_num_rows($check_if_first_purchase)<1) { #ie if this is the customer's first purchase
 		
 
@@ -189,7 +189,7 @@
 			$coupon_value = 1000;
 
 			// check if the customer has any unused coupon
-			$get_coupon = mysqli_query($config,"select * from coupons where customer_id='$customer_id' and event='purchase' and used='0' ");
+			$get_coupon = mysqli_query($config,"select * from coupons where customer_id='$customer_id' and event='purchase' and used='0' and customer_type ='$customer_type' ");
 			if (mysqli_num_rows($get_coupon)) {
 				echo'';
 			}else#insert give the person the coupon
@@ -278,8 +278,11 @@
 		</div>
 
 	</div>
+
 </div>
  
+
+
 <div class="fixed-bottom">
 	<?php include("include/footer.php");?>
 </div>
