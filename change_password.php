@@ -4,7 +4,7 @@
 if (isset($_SERVER['HTTP_REFERER'])) {
 	$refering_url = $_SERVER['HTTP_REFERER'];
 	// check the refering page, redirect as required
-	if ($refering_url !=="http://localhost/projects/afrileg/edit.php") {
+	if ($refering_url !=="https://afrileg.herokuapp.com/edit.php") {
 		// redirect to the edit page
 		header("location:edit.php");
 	}
