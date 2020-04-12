@@ -1,39 +1,41 @@
- <?php echo'
- <!-- product -->
-      <div class="col-6 col-sm-6 col-lg-3 mb-4">
-        <div class="card mb-2">
-          <div class="card-body sm text-center">
-            '.$product['name'].'
-            <hr>
-          
-              <a href="view_product.php?product_id='.$product['id'].'"><img style="min-height:150px; max-width:100%; max-height:150px" class="img-fluid" alt="'.$product['name'].' " src="admin/'.$product['image1'].'" ></a>
-          
-          <hr>
-            <div class="sm">
-              NGN '.$product['price'].' 
-            </div>
-            <div class="rating">
-                <i class="ti-star  sm"></i>
-                <i class="ti-star  sm"></i>
-                <i class="ti-star  sm"></i>
-                <i class="ti-star  sm"></i>
-                <i class="ti-star  sm"></i>
-            </div>
-            <div class="text-center btn-group">
+ <?php
+echo'
+        <!--------- product  starts-------->
+            <div class=" col-6 col-md-3 col-lg-3 mb-4">
+              <div class="card text-center mb-2">
+                  <div class="card-header text-center">
+                  '.$product['name'].'
+                </div>
+                <div class="card-body bg-white">
+                  <a href="view_product.php?product_id='.$product['id'].'"><img style="min-height:150px; max-width:100%;  max-height:150px"   class="card-image" alt="'.$product['name'].' " src="admin/'.$product['image1'].'" ></a>
+                </div>
+                <div class="card-footer p-1">
+                  <div class=" p-1">
+                      NGN '.$product['price'].' 
+                    </div>
+                    <div>
+                      <i class="ti-star "></i>
+                      <i class="ti-star "></i>
+                      <i class="ti-star "></i>
+                      <i class="ti-star "></i>
+                      <i class="ti-star "></i>
+                  </div>
+                  <div class="text-center btn-group ">
               <a href="view_product.php?product_id='.$product['id'].'"   class="btn btn-sm btn-outline-secondary">view detail</a>';
 
-              if($product['inventory']>0){ echo '
-              <button id="product_'.$product['id'].'" class="btn btn-sm btn-info">add to <i class="ti-shopping-cart"></i> </button>
-              <i class="ml-1" id="added_'.$product['id'].'" >
-                '.$tick.'
-              </i>
-              ';} else{echo '<button class="btn btn-sm btn-info disabled btn-disabled">out of stock</button>';}
-echo'       </div>
-            
+                  if($product['inventory']>0){ echo '
+                  <button id="product_'.$product['id'].'" class="btn btn-sm btn-info">add to <i class="ti-shopping-cart"></i> </button>
+                  <i class="ml-1" id="added_'.$product['id'].'" >
+                    '.$tick.'
+                  </i>
+                  ';} else{echo '<button class="btn btn-sm btn-info disabled btn-disabled">out of stock</button>';}
+    echo'       </div>
+                
 
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
+
     
 <script type="text/javascript">
 

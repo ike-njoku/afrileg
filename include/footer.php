@@ -4,24 +4,30 @@
 <?php
 // only show this if the person has not clicked it before
 ?>
-<section class="container-fluid " id="cookie_pop_up">
-  <section class="row fixed-bottom">
-    <section class="col-md-5 col-md-pull-6 ">
-      <section class="card">
-        <section class="card-body alert alert-warning">
-          <section class="text-right">
-            <span id="hide_cookie_pop_up">
-              &times
-            </span>
+<?php
+ //make sure that it only shows for un-registered customers 
+?>
+
+<?php if(empty($_SESSION['id'])): ?>
+  <section class="container-fluid " id="cookie_pop_up">
+    <section class="row fixed-bottom">
+      <section class="col-md-5 col-md-pull-6 ">
+        <section class="card">
+          <section class="card-body alert alert-warning">
+            <section class="text-right">
+              <span id="hide_cookie_pop_up">
+                &times
+              </span>
+            </section>
+            Welcome. Afrileg uses cookies to customise your shopping experience and offer you the best possible service.
+            <br>
+            <a href="#">Learn More</a>
           </section>
-          Welcome. Afrileg uses cookies to customise your shopping experience and offer you the best possible service.
-          <br>
-          <a href="#">Learn More</a>
         </section>
       </section>
     </section>
   </section>
-</section>
+<?php endif;?>
 <?php endif; ?>
 <script type="text/javascript">
   // this script hides the cookie pop up
