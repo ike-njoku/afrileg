@@ -25,7 +25,7 @@
 
 
 					/*password change */
-					if ($referer_url == "http://localhost/projects/afrileg/change_password.php") {
+					if ($referer_url == "https://afrileg.herokuapp.com/change_password.php") {
 						// these are editable later
 						$img_displayed ="<img src='images/tick-loop-1.gif' ><br> ";
 						$message ="Your Password has been changed successfully. <br> Click <a href='dashboard.php'> here </a> to retur to your dashboard ";
@@ -40,7 +40,7 @@
 
 
 					/*funded wallet*/
-					if ($referer_url =="http://localhost/projects/afrileg/fund_wallet.php" ) {
+					if ($referer_url =="https://afrileg.herokuapp.com/fund_wallet.php" ) {
 
 						// check if the person just funded his wallet
 						if (isset($_GET['mthd'])) {
