@@ -1,5 +1,29 @@
 <?php include("include/header.php");?>
 
+<?php
+  // give new customer wallet balance of zero
+  if(isset($_SESSION['id']))
+  {
+    // give the customer a wallet if the customer does not have a wallet
+    // get the amount of money that the registered customer has in their wallet
+    $get_wallet_balance = mysqli_query($config,"select * from wallet where customer_id='$customer_id' ");
+    if (mysqli_num_rows($get_wallet_balance)>0) {
+      $wallet_balance= mysqli_fetch_assoc($get_wallet_balance);
+      if (($wallet_balance['amount'] < 0) || strlen($wallet_balance['amount'])<1) {
+        $wallet_balance = "0.00";
+      }else{$wallet_balance = $wallet_balance['amount'];}
+    }else{
+      // create a wallet balance for the person
+      $create_wallet_balance = mysqli_query($config,"insert into wallet(customer_id,amount)values('$customer_id','0.00') ");
+      // echo out the details that you just created
+      $wallet_balance= mysqli_fetch_assoc($get_wallet_balance);
+      if (($wallet_balance['amount'] < 0) || strlen($wallet_balance['amount'])<1) {
+        $wallet_balance = "0.00";
+      }else{$wallet_balance = $wallet_balance['amount'];}
+    }
+  }
+?>
+
 <?php 
 
 // contact us
@@ -18,8 +42,8 @@
 
 ;?>
 
-<section class="bg-image-full">
-    <div id="landing_div" class="py-5">
+<section class="bg-image-full container-fluid">
+    <div id="landing_div" class="py-5 row">
       	<!-- <img style="max-width:100%;min-width:100%;height: 100%" src="images/slider1.jpg"> -->
        
     </div>
@@ -175,7 +199,7 @@
 </section>  
 
 <script type="text/javascript">
-  document.getElementById('new_arrivals_div').style.padding ="2px";
-</script>
+  document.getElementById('new_arrivals_div').style.margin ="2px";
+</script>.
 
 <?php include("include/footer.php");?>

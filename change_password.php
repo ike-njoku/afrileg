@@ -1,16 +1,14 @@
 <?php include("include/header.php");?>
 <?php 
 // get the refering page: this page must only be accessable if the user was redirected from edit.php
-
-	if (isset($_SERVER['HTTP_REFERER'])) {
-		$refering_page= $_SERVER['HTTP_REFERER'];
-		echo $refering_page;
-		if ($refering_page!="http://localhost/afrileg.com/edit.php") {
-			header("location:index.php");
-		}
-	}else{
-		header("location:index.php");
+if (isset($_SERVER['HTTP_REFERER'])) {
+	$refering_url = $_SERVER['HTTP_REFERER'];
+	// check the refering page, redirect as required
+	if ($refering_url !=="http://localhost/projects/afrileg/edit.php") {
+		// redirect to the edit page
+		header("location:edit.php");
 	}
+}else{header("location:index.php");}
 
 ?>
 
@@ -33,7 +31,7 @@ if (isset($_POST['change_password'])) {
 			
 			// redirect the page on successful update
 			if ($update_password = mysqli_query($config,"update customers set password= '$password_2' where id='$customer_id' ")) {
-				header("location:success.php?password_update=true");
+				header("location:success2.php?password_update=true");
 			}
 		}
 	}else{$error_message = "<div class='small alert alert-warning mb-2'>Your Passwords do not match</div>";}

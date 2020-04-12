@@ -36,10 +36,21 @@
 <?php 
 	// get the amount of money that the registered customer has in their wallet
 	$get_wallet_balance = mysqli_query($config,"select * from wallet where customer_id='$customer_id' ");
-	$wallet_balance= mysqli_fetch_assoc($get_wallet_balance);
-	if (($wallet_balance['amount'] < 0) || (empty($wallet_balance))) {
-		$wallet_balance = "0.00";
-	}else{$wallet_balance = $wallet_balance['amount'];}
+	if (mysqli_num_rows($get_wallet_balance)>0) {
+		$wallet_balance= mysqli_fetch_assoc($get_wallet_balance);
+		if (($wallet_balance['amount'] < 0) || strlen($wallet_balance['amount'])<1) {
+			$wallet_balance = "0.00";
+		}else{$wallet_balance = $wallet_balance['amount'];}
+	}else{
+		// create a wallet balance for the person
+		$create_wallet_balance = mysqli_query($config,"insert into wallet(customer_id,amount)values('$customer_id','0.00') ");
+		// echo out the details that you just created
+		$wallet_balance= mysqli_fetch_assoc($get_wallet_balance);
+		if (($wallet_balance['amount'] < 0) || strlen($wallet_balance['amount'])<1) {
+			$wallet_balance = "0.00";
+		}else{$wallet_balance = $wallet_balance['amount'];}
+	}
+	
 ?>
 
 

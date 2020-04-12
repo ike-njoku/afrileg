@@ -9,6 +9,7 @@
 	}
 ?>
 
+<a href="fund_wallet.php">fund wallet</a>
 <section class="py-5" ></section>
 <?php 
 	$amount_in_wallet = 0;
@@ -52,6 +53,67 @@
 	// subtract the grand total from persons wallet
 	// tell the customer how much will be left in their wallet if they make that payment
 	$new_wallet_balance = $wallet_balance - $grand_total;
+?>
+
+
+<?php 
+	// esesntially, what we are trying to do here is:
+	// if the person is a registered customer, check if there is a delivery address... if so, update the person's delivery details to be this new one
+	
+	// if the person is not a registered customer :
+		// check if the person's address is already there. if it is not, insert the address. else, change it
+
+
+	//check if there is a registered address for the customer 
+	$check_delivery_address = mysqli_query($config,"select * from delivery_details where customer_id ='$customer_id' and customer_type ='$customer_type' ");
+	// if such a row exiss, we are gonna wanna update that information
+
+	if (mysqli_num_rows($check_delivery_address)>0) {
+		// there's an address, we will echo this later in the input form value
+		$customer_address = mysqli_fetch_assoc($check_delivery_address);
+
+		// checck if the person submitted the form
+		if (isset($_POST['submit'])) {
+
+			$firstname = $_POST['firstname'];
+			$lastname = $_POST['lastname'];
+			$email = $_POST['email'];
+			$address = $_POST['address'];
+			$moobile = $_POST['mobile'];
+			$zip = $_POST['zip'];
+			$country = $_POST['country'];
+			$city = $_POST['city'];
+			$mobile = $_POST['mobile'];
+
+
+			// make the variables above into an array and loop through them
+
+			$input_fields = array("$firstname","$lastname","$email","$address","$mobile","$country","$city","$mobile");
+
+			// validate each input field to make sure that the fields are not empty
+			for ($input_value=0; $input_value < count($input_fields) ; $input_value++) { 
+				if (strlen($input_fields[$input_value]) < 2) {
+					// redirect to the checkout page
+				 	header("location:checkout.php?incomplete_form");
+				 	break;
+			 	}
+			}
+ 
+			
+			// update delivery details
+			$update_delivery_details = mysqli_query($config,"update delivery_details set firstname ='$firstname' , lastname ='$lastname' , email ='$email' , city='$city' , mobile='$mobile' , country='$country' , customer_type ='$customer_type' , customer_id ='$customer_id' , zip ='$zip' where customer_type ='$customer_type' and customer_id ='$customer_id' ");
+			if ($update_delivery_details) {
+			 	echo "successfully updated delivery details";
+			 	echo "<br>"; echo $firstname;
+			 } else{echo "unsuccessful";}
+
+			// send the new delivery address to the delivery table incase the customer changes his address
+		}
+
+
+	}else{
+		echo "there is none";
+	}
 ?>
 
 <div class="container-fluid">
@@ -100,39 +162,39 @@
 					<h1>Delivery Details <i class="ti-location-pin "></i> </h1>
 				</div>
 				<div class="card-body">
-					<form>
+					<form method="post">
 						<div class="row">
 							<div class="col-md-6">
 								<label for="firstname" > First Name</label>
-									<input class="form-control" type="text" name="firstname">	
+									<input class="form-control" type="text" name="firstname" value="<?php echo $customer_address['firstname'];?>" required>	
 							</div>
 							<div class="col-md-6">
 								<label for="lastname"> Last Name </label>
-								<input class="form-control" type="text" name="lastname">			
+								<input class="form-control" type="text" name="lastname" value="<?php echo $customer_address['lastname'];?>"required>			
 							</div>
 						</div>
 						<div class="row">
 							<div class="col-md-6">
 								<label for="mobile">Mobile</label>
-								<input class="form-control" type="text" name="mobile">
+								<input class="form-control" type="text" name="mobile" value="<?php echo $customer_address['mobile'];?>"required>
 							</div>
 							<div class="col-md-6">
 								<label for="address">Address</label>
-								<input class="form-control" type="text" name="address">
+								<input class="form-control" type="text" name="address" value="<?php echo $customer_address['address'];?>"required>
 							</div>
 						</div>
 						<div class="row">
 							<div class="col-md-6">
 								<label for="city" >City</label>
-								<input class="form-control" type="text" name="city">
+								<input class="form-control" type="text" name="city" value="<?php echo $customer_address['city'];?>"required>
 							</div>
 							<div class="col-md-6">
 								<label for="state" >Country</label>
-								<select name="state" class="form-control">
-									<option value="" class="form-control">
+								<select name="country" class="form-control" required>
+									<option value="country" class="form-control">
 										Nigeria
 									</option>
-									<option value="" class="form-control">
+									<option value="<?php echo $customer_address['country'];?>" class="form-control">
 										Ghana
 									</option>
 								</select>
@@ -141,22 +203,23 @@
 						<div class="row">
 							<div class="col-md-6">
 								<label for="email"> Email</label>
-								<input class="form-control" type="email" name="email" required>
+								<input class="form-control" type="email" name="email" required value="<?php echo $customer_address['email'];?>" required>
 							</div>
 							<div class="col-md-3">
 								<label for="zip" >Zip </label>
-								<input class="form-control" type="text" name="zip">
+								<input class="form-control" type="text" name="zip" value="<?php echo $customer_address['zip'];?>" required>
 							</div>
 							<div class="col-md-3">
 								<label for="state" >State</label>
-								<select name="state" class="form-control">
-									<option value="" class="form-control">
+								<select name="state" class="form-control" required>
+									<option value="<?php echo $customer_address['state'];?>" class="form-control">
 										Abuja
 									</option>
 								</select>
 							</div>
 						</div>	
 				</div>
+					<button type="submit" name="submit">submit</button>
 					</form>
 				<div class="card-footer d-flex justify-content-right">
 					<div>
@@ -228,6 +291,7 @@
 		<!-- end of delivery details -->
 	</div>
 </div>
+
 <?php include("include/footer.php");?>
 							
 <?php 
@@ -271,7 +335,7 @@
                     response.tx.chargeResponseCode == "0"
                 ) {
                     // redirect to a success page
-                	window.location.href = "success.php" ;//later, change this to grand-total
+                	window.location.href = "success.php?mtd=payment" ;//later, change this to grand-total
                 } else {
                     // redirect to a failure page.
                     window.location.href ="failed.php";

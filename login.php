@@ -12,6 +12,7 @@
     if ($password==$customer['password']) {
       if ($customer['active']==1  or $customer['active']==2 ) {
         $_SESSION['id']=$customer['id'];
+        
         header("location:index.php");
       }else{$err= '<div class="alert alert-warning p-2 mb-2 text-center">Your account is inactive <p class="small"> activate your account by clicking the link that was sent to your email </p> </div>';}
       

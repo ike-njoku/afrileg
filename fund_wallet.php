@@ -44,7 +44,7 @@
 								</div>
 							</div>
 						</div>
-					</div>
+					</div><a href="success2.php?mthd=fund_wallet">pay</a>
 				</div>
 			</div>
 		</div>
@@ -94,7 +94,7 @@
                     response.tx.chargeResponseCode == "0"
                 ) {
                     // redirect to a success page
-                	window.location.href = "success.php?mthd=fund_wallet" ;//later, change this to grand-total
+                	window.location.href = "success2.php?mthd=fund_wallet" ;//later, change this to grand-total
                 } else {
                     // redirect to a failure page.
                     window.location.href ="failed.php";

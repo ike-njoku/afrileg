@@ -29,60 +29,62 @@
 <?php
 	// create_table function:
 	
-	// function create_table($table_name, $columns){
+	function create_table($table_name, $columns){
 
 
 	// 	// include the database connection:
-	// 	$include_db_connection = include("include/connect.php");
-	// 	if ($include_db_connection) {
-	// 		echo "database connection successful"."<br>";
-	// 		// create the table_query
-	// 		$create_table_query = "create table ".$table_name." (
-	// 			".$columns."
+		$include_db_connection = include("include/connect.php");
+		if ($include_db_connection) {
+			echo "database connection successful"."<br>";
+			// create the table_query
+			$create_table_query = "create table ".$table_name." (
+				".$columns."
 
-	// 		) ;";
+			) ;";
 
-	// 		// inbuilt function>>> merging the query with the sql
-	// 		$create_table_mysqli = mysqli_query($config,$create_table_query);
-	// 		// error messages 
-	// 		if ($create_table_mysqli) {
-	// 			echo "table successfully created <br>";
-	// 		}else{
-	// 			echo "table could not be created because: <br>";
-	// 			// check if the table name and columns were specified
-	// 			if (strlen($table_name)<1) {
-	// 				echo "the table name was not specified<br>";
-	// 			}
-	// 			if (strlen($columns)<1) {
-	// 				echo "the column parameters were not defined <br>";
-	// 			}
+			// inbuilt function>>> merging the query with the sql
+			$create_table_mysqli = mysqli_query($config,$create_table_query);
+			// error messages 
+			if ($create_table_mysqli) {
+				echo "table successfully created <br>";
+			}else{
+				echo "table could not be created because: <br>";
+				// check if the table name and columns were specified
+				if (strlen($table_name)<1) {
+					echo "the table name was not specified<br>";
+				}
+				if (strlen($columns)<1) {
+					echo "the column parameters were not defined <br>";
+				}
 
-	// 		}
+			}
 
 
 
-	// 	}else{
-	// 		echo "Database connection error <br>";
-	// 	}
+		}else{
+			echo "Database connection error <br>";
+		}
 
-	// }
+	}
 ?>
 
 <?php 
 
 	// create guests table
 	
-	// $table_name ="guests"; #set the table_name
+	$table_name ="fund_wallet"; #set the table_name
 
-	// $columns ="
-	// 	id int NOT NULL AUTO_INCREMENT,
+	$columns ="
+		id int NOT NULL AUTO_INCREMENT,
 
-	// 	guest_id varchar(225),
+		customer_id varchar(225),
+	 paid varchar(225),
 
-	// 	PRIMARY KEY(ID)
-	// ";
 
-	// create_table($table_name,$columns);
+		PRIMARY KEY(ID)
+	";
+
+	create_table($table_name,$columns);
 ?>
 
 
@@ -214,26 +216,26 @@
 <?php 
 	
 
-	$table_name = "guests";
-	$empty_table = mysqli_query($config,"truncate $table_name ");
-	if ($empty_table) {
-		echo "successfully emptied the $table_name table";
-	}else{
-		echo "unable to truncate table ";
-	}
+// 	$table_name = "guests";
+// 	$empty_table = mysqli_query($config,"truncate $table_name ");
+// 	if ($empty_table) {
+// 		echo "successfully emptied the $table_name table";
+// 	}else{
+// 		echo "unable to truncate table ";
+// 	}
 	
 ?>
 
 <?php 
-	
 
-	$table_name = "cart";
-	$empty_table = mysqli_query($config,"truncate $table_name ");
-	if ($empty_table) {
-		echo "successfully emptied the $table_name table";
-	}else{
-		echo "unable to truncate table ";
-	}
+
+// 	$table_name = "cart";
+// 	$empty_table = mysqli_query($config,"truncate $table_name ");
+// 	if ($empty_table) {
+// 		echo "successfully emptied the $table_name table";
+// 	}else{
+// 		echo "unable to truncate table ";
+// 	}
 	
 ?>
 
