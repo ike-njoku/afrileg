@@ -3,6 +3,12 @@
 <section class="py-5"></section>
 <!-- left nav -->
 <div class=" container-fluid">
+	<?php 
+	 if (isset($_SERVER['HTTP_REFERER'])) {
+	 	echo $_SERVER['HTTP_REFERER'];
+	 }
+
+	?>
 	
 		
 			<?php include("include/category.php") ;?>
