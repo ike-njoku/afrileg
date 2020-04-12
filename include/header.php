@@ -1,56 +1,7 @@
+<?php ob_start();?>
 <?php session_start() ;?>
 <?php include("include/connect.php") ;?>
 <?php
-
-  // if(empty($_SESSION['id'])){
-    
-  //   if (isset($_COOKIE['guest_id'])) {
-  //     $customer_id='';
-
-  //     $guest_id = $_COOKIE['guest_id'];
-  //     $get_active_guest = mysqli_query($config,"select * from guests where guest_id = '$guest_id'  ");
-  //     if (mysqli_num_rows($get_active_guest)>0) {
-  //       $active_guest = mysqli_fetch_assoc($get_active_guest);
-  //       $guest_id = $active_guest['guest_id'];
-  //       $customer_id = $guest_id;
-  //     }
-     
-  //   }else{
-  //     // the guest is not registered
-
-  //     // check the last id of the last guest
-  //     // if there was no previous guest, let the present guest be the first guest
-  //     // create a cookie to track which guest is active
-  //     setcookie("guest_id",$guest_id);
-  //    echo $_COOKIE['guest_id'];
-  //     // get the total number of guests
-  //     $get_total_guests = mysqli_query($config,"select * from guests");
-  //     $total_guests = mysqli_num_rows($get_total_guests);
-
-  //     // if the total number of guests is zero, that means that this is the first visitor
-  //     // therefore create a new id  for him
-  //     if ($total_guests <1 ) {
-  //       // declear the first user's id as a crc32() calculation of the id column in the database
-  //       $guest_id = crc32(1);
-
-  //     }else{
-  //       // if the guest is not the first:
-  //       // select the last registered guest_number and add one to it. then make the crc32() of the result into the new guest_id
-
-  //       $guest_id = crc32($total_guests + 1);
-  //       // create the next guest_id 
-
-  //     }
-  //     // enter the guest_id and all into the database
-  //     $create_guest_id = mysqli_query($config,"insert into guests(guest_id) values($guest_id) ");
-  //     if (mysqli_num_rows($create_guest_id)) {
-  //       echo "welcome new user";
-  //     }
-
-  //   }
-  // }
-  
-
   if (isset($_SESSION['id'])) {
     $customer_id = $_SESSION['id'];
     $customer_type = 'customer';
@@ -59,7 +10,6 @@
     $customer_id = $customer['id'];
   }else{
     // the person is not a registered customer
-
     // check if a cookie is set
     if (isset($_COOKIE['guest_id'])) {
       $guest_id = $_COOKIE['guest_id'];
@@ -68,7 +18,6 @@
     }else{
       // the person is not a registered customer and also does not have a cookie;
       // count the number of guests in the database, and make this currently unregistered guest the next guest
-
       $guest_count = mysqli_query($config,"select * from guests");
         // create the next guest_id
         $next_guest_id = mysqli_num_rows($guest_count)+1;
@@ -80,23 +29,17 @@
             $guest_id = $next_guest_id;
             setcookie('guest_id',$customer_id, time()+2*24*60*60);
             $customer_id = $_COOKIE['guest_id'];
-
-
         }else{
           // redirect the page if the entry didnot work so that the guest can try again especially if there is an instance of a clashing id
           header("location:index.php");
         }
       }
-
     }
-
-
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<title>Afriduds African Market</title>
+	<title>Afriduds Ankara Market</title>
 	<link rel="icon" href="images/favicon2.png">
 	<meta charset="utf8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -153,11 +96,9 @@
     if ($cart_items>0) {
       $cart_items = $cart_items;
     }else{$cart_items=""; }
-?>
-	
-	
+?>		
 <!-- Navigation -->
-    <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top mb-2">
+    <nav class="navbar navbar-expand-md navbar-dark bg-dark fixe-top mb-2">
       <div class="container-fluid">
         <a class="navbar-brand" href="index.php"><img class="img-fluid" height="50" width="50" src="images/favicon2.png"></a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
@@ -233,8 +174,7 @@
     ?>
 
 <!-- Navigation -->
-    <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top mb-2">
-
+    <nav class="navbar navbar-expand-md navbar-dark bg-dark fixe-top mb-2">
       <div class="container-fluid">
         <a class="navbar-brand" href="index.php"><img class="img-responsive" height="50" width="50" src="images/favicon2.png"></a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
@@ -308,8 +248,6 @@
   if (isset($_POST['login'])) {
     $email=$_POST['email'];
     $password= crc32(md5(md5($_POST['password'])));
-  
-
   // search for a match in the database
   $qry=mysqli_query($config,"select * from customers where email='$email' " );
   if ($qry) {
@@ -324,7 +262,6 @@
 
   }else{$err='<div class="alert alert-warning p-2 mb-2 text-center">Account not found</div>';}
   }
- 
 ?>
 <?php endif;?>
 
