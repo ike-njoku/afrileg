@@ -17,6 +17,7 @@ div{
 
 
 #landing_div{
-	background-size: contain;
+	background-size: cover;
 	background-image:url("../images/BAR-02.jpg");
+	background-repeat: no-repeat;
 }
