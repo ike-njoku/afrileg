@@ -98,7 +98,7 @@
     }else{$cart_items=""; }
 ?>		
 <!-- Navigation -->
-    <nav class="navbar navbar-expand-md navbar-dark bg-dark fixe-top mb-2">
+    <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top mb-2">
       <div class="container-fluid">
         <a class="navbar-brand" href="index.php"><img class="img-fluid" height="50" width="50" src="images/favicon2.png"></a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
@@ -174,7 +174,7 @@
     ?>
 
 <!-- Navigation -->
-    <nav class="navbar navbar-expand-md navbar-dark bg-dark fixe-top mb-2">
+    <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top mb-2">
       <div class="container-fluid">
         <a class="navbar-brand" href="index.php"><img class="img-responsive" height="50" width="50" src="images/favicon2.png"></a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
