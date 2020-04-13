@@ -30,24 +30,24 @@
 
 
 	// create column ( address ) to delivery_details
-	$table_name ="delivery_details";
+	$table_name ="orders";
 	$column_name = "address";
-	$data_type "longtext";
+	$data_type = "longtext";
 	add_column($table_name,$column_name,$data_type);
 
 
 	// add column( regdate ) to fund_wallet
 	$table_name ="fund_wallet";
 	$column_name = "regdate";
-	$data_type "datetime";
+	$data_type = "datetime";
 	add_column($table_name,$column_name,$data_type);
 
 
-	// add column( regdate ) to fund_wallet
+	// add column( customer_type ) to saved_items
 	$table_name ="saved_items";
 	$column_name = "customer_type";
-	$data_type "varchar(225)";
+	$data_type = "varchar(225)";
 	add_column($table_name,$column_name,$data_type);
-	
+
 
 ?> 
