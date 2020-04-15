@@ -22,6 +22,7 @@
 ?>
 
 <?php 
+
 	// cerate column ( amount ) in fund_wallet
 	$table_name = 'fund_wallet';
 	$column_name ='amount';
@@ -46,6 +47,13 @@
 	// add column( customer_type ) to saved_items
 	$table_name ="saved_items";
 	$column_name = "customer_type";
+	$data_type = "varchar(225)";
+	add_column($table_name,$column_name,$data_type);
+
+
+	// add column( referer_id ) to fund_wallet
+	$table_name ="customers";
+	$column_name = "referer_id";
 	$data_type = "varchar(225)";
 	add_column($table_name,$column_name,$data_type);
 
