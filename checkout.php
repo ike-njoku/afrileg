@@ -11,6 +11,7 @@
 
 <a href="fund_wallet.php">fund wallet</a>
 <section class="py-5" ></section>
+
 <?php 
 	$amount_in_wallet = 0;
 	// get the wallet balance
@@ -335,7 +336,7 @@
                     response.tx.chargeResponseCode == "0"
                 ) {
                     // redirect to a success page
-                	window.location.href = "success.php?mtd=payment" ;//later, change this to grand-total
+                	window.location.href = "success2.php?mtd=payment" ;//later, change this to grand-total
                 } else {
                     // redirect to a failure page.
                     window.location.href ="failed.php";
