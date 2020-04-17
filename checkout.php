@@ -9,8 +9,11 @@
 	}
 ?>
 
-<a href="fund_wallet.php">fund wallet</a>
+
 <section class="py-5" ></section>
+<a href="success2.php?mtd=payment">buy</a>
+<br>
+<a href="fund_wallet.php">fund wallet</a>
 
 <?php 
 	$amount_in_wallet = 0;
@@ -109,6 +112,8 @@
 			 } else{echo "unsuccessful";}
 
 			// send the new delivery address to the delivery table incase the customer changes his address
+
+			 // when the customer completes the purchase, on the success page, we will copy the new address into the orders table
 		}
 
 
