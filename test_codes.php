@@ -58,4 +58,31 @@
 	add_column($table_name,$column_name,$data_type);
 
 
+	// add column( referer_id ) to fund_wallet
+	$table_name ="delivery_details";
+	$column_name = "customer_type";
+	$data_type = "longtext";
+	add_column($table_name,$column_name,$data_type);
+
+
+	// add column( referer_id ) to fund_wallet
+	$table_name ="coupons";
+	$column_name = "customer_type";
+	$data_type = "varchar(255)";
+	add_column($table_name,$column_name,$data_type);
+
+
 ?> 
+
+<?php
+$uri = $_SERVER['REQUEST_URI'];
+echo $uri; // Outputs: URI
+ 
+$protocol = ((!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off') || $_SERVER['SERVER_PORT'] == 443) ? "https://" : "http://";
+ 
+$url = $protocol . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+echo $url; // Outputs: Full URL
+ 
+$query = $_SERVER['QUERY_STRING'];
+echo $query; // Outputs: Query String
+?>
