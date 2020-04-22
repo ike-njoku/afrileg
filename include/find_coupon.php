@@ -20,7 +20,7 @@
 				return;
 			}
 
-			$get_coupon = mysqli_query($config,"select * from coupons where customer_id='$customer_id' and used='0' and code='$key_' and customer_type ='$customer_type' ");
+			$get_coupon = mysqli_query($config,"select * from coupons where customer_id='$customer_id' and used='0' and code='$key_' and customer_type ='$customer_type' and tracking_id ='0' ");
 			if(mysqli_num_rows($get_coupon))
 				{
 				$coupon = mysqli_fetch_assoc($get_coupon);

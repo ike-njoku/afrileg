@@ -39,13 +39,13 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<title>Afriduds Ankara Market</title>
-	<link rel="icon" href="images/favicon2.png">
-	<meta charset="utf8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<!---local bootstrap files--->
-	<link rel="stylesheet" href="vendor/bootstrap/css/bootstrap.css">
+  <title>Afriduds Ankara Market</title>
+  <link rel="icon" href="images/favicon2.png">
+  <meta charset="utf8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <!---local bootstrap files--->
+  <link rel="stylesheet" href="vendor/bootstrap/css/bootstrap.css">
 
   <!-- fonts -->
   <link rel="stylesheet" href="fonts/themify-icons/themify-icons.css">
@@ -96,7 +96,7 @@
     if ($cart_items>0) {
       $cart_items = $cart_items;
     }else{$cart_items=""; }
-?>		
+?>    
 <!-- Navigation -->
     <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top mb-2">
       <div class="container-fluid">
@@ -125,15 +125,15 @@
               <a class="nav-link" href="index.php#contactus">Contact Us</a>
             </li>
             <div class="dropdown">
-            	<a class="dropdown-toggle btn btn-sm bg-dark"data-toggle="dropdown">
-            		<img class="rounded-circle" height =35 width = 35 src="
+              <a class="dropdown-toggle btn btn-sm bg-dark"data-toggle="dropdown">
+                <img class="rounded-circle" height =35 width = 35 src="
 
                 <?php if (empty($customer['avatar'])) {
                   echo "images/avatar.png";
                 } else{echo $customer['avatar'];}?>">
              
                
-            	</a>
+              </a>
 
               <ul class="bg-light dropdown-menu dropdown-menu-right text-center p-2">
 
@@ -156,7 +156,7 @@
       </div>
     </nav>
 
-	<?php else: ?>
+  <?php else: ?>
 
     <?php 
 
@@ -190,8 +190,8 @@
               <a class="nav-link" href="shop.php">shop</a>
             </li>
             <li class="nav-item">
-              <?php $cart_items='';?>
               <a class="nav-link" href="cart.php#">cart
+                
                 <span <?php if($cart_items>0): ?> class="badge badge-info"<?php endif;?> id="cart_items">
                   <?php echo $cart_items;?>
                 </span>
@@ -201,8 +201,8 @@
               <a class="nav-link" href="index.php#contactus">Contact Us</a>
             </li>
             <div class="btn-group">
-            	<a href="signup.php" class="btn btn-small btn-sm btn-outline-secondary">sign up</a>
-            	<a data-toggle="modal" data-target="#login_modal" href="#" class="btn btn-small btn-sm btn-outline-secondary">log in</a>
+              <a href="signup.php" class="btn btn-small btn-sm btn-outline-secondary">sign up</a>
+              <a data-toggle="modal" data-target="#login_modal" href="#" class="btn btn-small btn-sm btn-outline-secondary">log in</a>
             </div>
           </ul>
         </div>
