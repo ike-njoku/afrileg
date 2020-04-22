@@ -11,10 +11,6 @@
 
 
 <section class="py-5" ></section>
-<a href="success2.php?mtd=payment">buy</a>
-<br>
-<a href="fund_wallet.php">fund wallet</a>
-
 <?php 
 	$amount_in_wallet = 0;
 	// get the wallet balance
@@ -71,57 +67,85 @@
 	//check if there is a registered address for the customer 
 	$check_delivery_address = mysqli_query($config,"select * from delivery_details where customer_id ='$customer_id' and customer_type ='$customer_type' ");
 	// if such a row exiss, we are gonna wanna update that information
+	// there's an address, we will echo this later in the input form value
+	$customer_address = mysqli_fetch_assoc($check_delivery_address);
+	if(isset($_POST['submit'])){
+		$firstname = $_POST['firstname'];
+		$lastname = $_POST['lastname'];
+		$email = $_POST['email'];
+		$address = $_POST['address'];
+		$moobile = $_POST['mobile'];
+		$zip = $_POST['zip'];
+		$country = $_POST['country'];
+		$city = $_POST['city'];
+		$mobile = $_POST['mobile'];
 
-	if (mysqli_num_rows($check_delivery_address)>0) {
-		// there's an address, we will echo this later in the input form value
-		$customer_address = mysqli_fetch_assoc($check_delivery_address);
-
-		// checck if the person submitted the form
-		if (isset($_POST['submit'])) {
-
-			$firstname = $_POST['firstname'];
-			$lastname = $_POST['lastname'];
-			$email = $_POST['email'];
-			$address = $_POST['address'];
-			$moobile = $_POST['mobile'];
-			$zip = $_POST['zip'];
-			$country = $_POST['country'];
-			$city = $_POST['city'];
-			$mobile = $_POST['mobile'];
+		// coupon
+		$coupon = $_POST['coupon'];
+	
 
 
-			// make the variables above into an array and loop through them
+		// make the variables above into an array and loop through them
+		$input_fields = array("$firstname","$lastname","$email","$address","$mobile","$country","$city","$mobile");
 
-			$input_fields = array("$firstname","$lastname","$email","$address","$mobile","$country","$city","$mobile");
+		// validate each input field to make sure that the fields are not empty
+		for ($input_value=0; $input_value < count($input_fields) ; $input_value++) { 
+			if (strlen($input_fields[$input_value]) < 2) {
+				// redirect to the checkout page
+			 	header("location:checkout.php?incomplete_form");
+			 	break;
+		 	}
+		}
+	 
+	}	
+	
 
-			// validate each input field to make sure that the fields are not empty
-			for ($input_value=0; $input_value < count($input_fields) ; $input_value++) { 
-				if (strlen($input_fields[$input_value]) < 2) {
-					// redirect to the checkout page
-				 	header("location:checkout.php?incomplete_form");
-				 	break;
-			 	}
+	// checck if the person submitted the form
+	if (isset($_POST['submit'])) {
+
+		// here we are going to validate the coupon that the person used
+		if (strlen($coupon)>0) {
+			$get_coupon_used = mysqli_query($config,"select * from coupons where code ='$coupon' and customer_id ='$customer_id' and customer_type ='$customer_type' and used='0' and tracking_id='0'");
+			if (mysqli_num_rows($get_coupon_used)) {
+				echo "coupon found <br>";
+				$coupon_used = mysqli_fetch_assoc($get_coupon_used);
+
+				// update the coupon value of used to 1... this can be undone if the customer wants to remove the coupon in thr confirm order page
+				
+				$coupon_update = mysqli_query($config,"update coupons set used='1' where customer_id ='$customer_id' and customer_type ='$customer_type' and code ='$coupon' and used='0' and tracking_id='0' ");				
+				if ($coupon_update) {
+					echo "coupon updated";
+					header("location:confirm_order.php");
+				}else{echo "coupon can not be used";}
 			}
- 
+		}
+
+		if (mysqli_num_rows($check_delivery_address)>0) {
+
 			
 			// update delivery details
 			$update_delivery_details = mysqli_query($config,"update delivery_details set firstname ='$firstname' , lastname ='$lastname' , email ='$email' , city='$city' , mobile='$mobile' , country='$country' , customer_type ='$customer_type' , customer_id ='$customer_id' , zip ='$zip' where customer_type ='$customer_type' and customer_id ='$customer_id' ");
 			if ($update_delivery_details) {
 			 	echo "successfully updated delivery details";
-			 	echo "<br>"; echo $firstname;
+			 	 header("location:confirm_order.php");
 			 } else{echo "unsuccessful";}
 
 			// send the new delivery address to the delivery table incase the customer changes his address
 
 			 // when the customer completes the purchase, on the success page, we will copy the new address into the orders table
+		}else{
+			// insert the address into the database
+			$insert_address = mysqli_query($config,"insert into delivery_details(customer_id , customer_type , firstname , lastname , email , address , mobile , country , city) values('$customer_id' , '$customer_type', '$firstname', '$lastname', '$email', '$address', '$mobile', '$country','$city') ");
+			if ($insert_address) {
+				echo "successfully created";
+				 header("location:confirm_order.php");
+				// on the success page, transfer the address to the address column of the order table
+			}else{echo "unable to create entry";}
 		}
-
-
-	}else{
-		echo "there is none";
 	}
+	
 ?>
-
+<form method="post">
 <div class="container-fluid">
 	<div class="row">	
 		<!-- order summary -->
@@ -133,7 +157,7 @@
 				<div class="card-body">
 					<div>
 						<p>
-						 	Shipping and additional costs are calculated based on the values you have entered.
+						 	Shipping costs are calculated based on information from your delivery details
 						 </p>
 						 <hr>
 					</div>
@@ -142,19 +166,15 @@
 					 </div>
 					 <hr>
 					 <div>
-					 	<form method="post">
+					 	
 					 		<input class="form-control mb-2" type="text" id="coupon" name="coupon" placeholder="Enter coupon code"> 
-					 	</form>
+					
 					 	<div id="get_coupon_response"></div>
 					 </div>
 					 
 					 <div class="">
 					 	<hr>
 					 	Delivery Fee: <?php echo $shipping_fee;?>
-					 </div>
-					 <hr>
-					 <div class="">
-					 	Grand Total: <b>NGN</b> <?php echo $grand_total;?>
 					 </div>
 				</div>
 			</div>
@@ -168,188 +188,101 @@
 					<h1>Delivery Details <i class="ti-location-pin "></i> </h1>
 				</div>
 				<div class="card-body">
-					<form method="post">
+					
 						<div class="row">
-							<div class="col-md-6">
+							<div class="col-6">
 								<label for="firstname" > First Name</label>
-									<input class="form-control" type="text" name="firstname" value="<?php echo $customer_address['firstname'];?>" required>	
+									<input class="form-control" type="text" name="firstname" value="<?php if(empty($customer_address['firstname'])){echo"";}else {echo $customer_address['firstname'];}?>" required>	
 							</div>
-							<div class="col-md-6">
+							<div class="col-6">
 								<label for="lastname"> Last Name </label>
-								<input class="form-control" type="text" name="lastname" value="<?php echo $customer_address['lastname'];?>"required>			
+								<input class="form-control" type="text" name="lastname" value="<?php if(empty($customer_address['lastname'])){echo "";} else{ echo $customer_address['lastname'];}?>"required>			
 							</div>
 						</div>
 						<div class="row">
-							<div class="col-md-6">
+							<div class="col-6">
 								<label for="mobile">Mobile</label>
-								<input class="form-control" type="text" name="mobile" value="<?php echo $customer_address['mobile'];?>"required>
+								<input class="form-control" type="text" name="mobile" value="<?php if(empty($customer_address['mobile'])){ echo "";}else {echo $customer_address['mobile'];}?>"required>
 							</div>
-							<div class="col-md-6">
-								<label for="address">Address</label>
-								<input class="form-control" type="text" name="address" value="<?php echo $customer_address['address'];?>"required>
-							</div>
-						</div>
-						<div class="row">
-							<div class="col-md-6">
-								<label for="city" >City</label>
-								<input class="form-control" type="text" name="city" value="<?php echo $customer_address['city'];?>"required>
-							</div>
-							<div class="col-md-6">
-								<label for="state" >Country</label>
-								<select name="country" class="form-control" required>
-									<option value="country" class="form-control">
-										Nigeria
-									</option>
-									<option value="<?php echo $customer_address['country'];?>" class="form-control">
-										Ghana
-									</option>
-								</select>
-							</div>
-						</div>
-						<div class="row">
-							<div class="col-md-6">
+							<div class="col-6">
 								<label for="email"> Email</label>
-								<input class="form-control" type="email" name="email" required value="<?php echo $customer_address['email'];?>" required>
+								<input class="form-control" type="email" name="email" required value="<?php if(empty($customer_address['email'])){echo "";}else {echo $customer_address['email'];}?>" required>
 							</div>
-							<div class="col-md-3">
+						</div>
+						<div class="row">
+							<div class="col-12">
+								<label for="address">Address</label>
+								<textarea class="form-control" type="text" name="address" value="<?php if(empty($customer_address['address'])){echo "";}else {echo $customer_address['address'];}?>"required></textarea>
+							</div>
+		
+						</div>
+						<div class="row">
+							<div class="col-6">
+								<label for="city" >City</label>
+								<input class="form-control" type="text" name="city" value="<?php if(empty($customer_address['city'])){echo "";}else{ echo $customer_address['city'];}?>"required>
+							</div>
+							<div class="col-6">
 								<label for="zip" >Zip </label>
-								<input class="form-control" type="text" name="zip" value="<?php echo $customer_address['zip'];?>" required>
+								<input class="form-control" type="text" name="zip" value="<?php if(empty($customer_address['zip'])){echo"";} else {echo $customer_address['zip'];}?>" required>
 							</div>
-							<div class="col-md-3">
+						</div>
+						<div class="row">
+							<div class="col-6">
 								<label for="state" >State</label>
-								<select name="state" class="form-control" required>
-									<option value="<?php echo $customer_address['state'];?>" class="form-control">
+								<select value="<?php if(empty($customer_address['state'])){echo "";} else{ echo $customer_address['state'];}?>" name="state" class="form-control" required>
+									<option  class="form-control">
 										Abuja
 									</option>
 								</select>
 							</div>
-						</div>	
-				</div>
-					<button type="submit" name="submit">submit</button>
-					</form>
-				<div class="card-footer d-flex justify-content-right">
-					<div>
-						<a class="btn btn-small btn-secondary btn-outline-secondry"  href="cart.php">
-							back to shop<i class="ti-shopping-cart "></i>
-						</a>
-					</div>
-					<div style="float:right;" class="btn-group">
-						<?php if(isset($_SESSION['id'])): ?>
-							<!-- if the person is a registered customer -->
-						<button data-toggle="modal" data-target="#payment_modal" class="btn btn-info btn-outline-secondry">
-							pay Now
-						</button>
-						<?php else:?>
-							<form>
-								<?php 
-								// this is the payment method for rave.flutterwave
-								?>
-							    <script src="https://api.ravepay.co/flwv3-pug/getpaidx/api/flwpbf-inline.js"></script>
-							    <button s class="btn btn-secondary  btn-info" type="button" onClick="payWithRave()">Pay with card <i class="ti-wallet"></i> </button>
-							</form>
-						<?php endif;?>
-						<?php if(isset($_SESSION['id'])): ?>
-						<div id="payment_modal" class="modal fade">
-							<div class="modal-dialog">
-								<div class="modal-content">
-									<div class="modal-header">
-										<b>Please select a payment Method:</b>
-									</div>
-									<div class="modal-body">
-										<div>
-											<div class="lead mb-4">
-												<?php echo "your wallet balance is NGN".$amount_in_wallet; ?><br>
-											</div>	
-											<div style="display: none;" id="confirm_wallet_pay" class="mt-4 mb-4">
-												<?php if(($grand_total > $amount_in_wallet) or ($wallet_balance - $grand_total >= 0)):?>
-												you do not have enough funds to complete this purchase. please try a different payment method Or click <a href="fund_wallet.php">here</a> to fund your wallet.
-												<?php else:?>
-													the sum of <b>NGN<?php echo $grand_total;?></b> will be deducted from your wallet. click <a href="success.php?mtd=wallet"> here</a> to confirm.
-												<?php endif;?>
-											</div>
-										</div>
-										<div class="row">
-											<div class="col d-flex justify-content-left">
-												<button id="wallet_pay" class="btn btn-secondary">pay from wallet</button>
-												<script type="text/javascript">
-													document.getElementById("wallet_pay").addEventListener("click",function(){
-														document.getElementById("confirm_wallet_pay").style.display="block";
-													})
-												</script>
-												<form>
-													<?php 
-													// this is the payment method for rave.flutterwave
-													?>
-												    <script src="https://api.ravepay.co/flwv3-pug/getpaidx/api/flwpbf-inline.js"></script>
-												    <button s class="btn btn-secondary  btn-info" type="button" onClick="payWithRave()">Pay with card <i class="ti-wallet"></i> </button>
-												</form>
-											</div>
-										</div>
-									</div>
-								</div>
+
+							<div class="col-6">
+								<label for="country" >Country</label>
+								<select name="country" class="form-control" required>
+									<option value="country" class="form-control">
+										Nigeria
+									</option>
+									<option value="<?php if(empty($customer_address['country'])){echo "";}else {echo $customer_address['country'];}?>" class="form-control">
+										Ghana
+									</option>
+								</select>
 							</div>
-						</div>
-						<?php endif; ?>
-					</div>
+						</div>			
 				</div>
-			</div>
+				<div class="card-footer text-right">
+					<button class="btn btn-small btn-info" type="submit" name="submit">Proceed</button>
+				</div>	
+				
 		</div>
 		<!-- end of delivery details -->
 	</div>
 </div>
+</form>
+
+
+
+
+
 
 <?php include("include/footer.php");?>
 							
 <?php 
-// the rest of this script is the javascript code that offers payment method for rave.flutterwave 
 ?> 
+
 <script type="text/javascript">
- 	//process the search for coupon
- 	document.getElementById("coupon").addEventListener("keyup",function(){
- 		var get_coupon;
- 		if (window.XMLHttpRequest) {get_coupon = new XMLHttpRequest() ;}else{get_coupon = new ActiveXObject("Microsoft.XMLHTTP");}
- 		var key_ = document.getElementById("coupon").value;
- 		get_coupon.open("GET","include/find_coupon.php?key_="+key_,true);
- 		get_coupon.onreadystatechange = function(){
- 			if (get_coupon.status==200 && get_coupon.readyState==4) {document.getElementById("get_coupon_response").innerHTML=get_coupon.responseText; }
- 		}
- 		get_coupon.send();
- 	})
-</script>
+	// ajax call to find and load
+	var coupon_input = document.getElementById('coupon');
+	coupon_input.addEventListener("keyup",function(){
 
-<script>
-    const API_publicKey = "FLWPUBK-d021b72dd1b6caf08bf9df2828dc6666-X";
-
-    function payWithRave() {
-        var x = getpaidSetup({
-            PBFPubKey: API_publicKey,
-            customer_email: "<?php echo $customer['email'];?>",
-            amount: <?php echo $grand_total;?>,
-            customer_phone: "234099940409",
-            currency: "NGN",
-            txref: "rave-123456",
-            meta: [{
-                metaname: "flightID",
-                metavalue: "AP1234"
-            }],
-            onclose: function() {},
-            callback: function(response) {
-                var txref = response.tx.txRef; // collect txRef returned and pass to a 					server page to complete status check.
-                console.log("This is the response returned after a charge", response);
-                if (
-                    response.tx.chargeResponseCode == "00" ||
-                    response.tx.chargeResponseCode == "0"
-                ) {
-                    // redirect to a success page
-                	window.location.href = "success2.php?mtd=payment" ;//later, change this to grand-total
-                } else {
-                    // redirect to a failure page.
-                    window.location.href ="failed.php";
-                }
-
-                x.close(); // use this to close the modal immediately after payment.
-            }
-        });
-    }
-    
-</script>
+		// send request
+		var coupon_request;
+		if (window.XMLHttpRequest){coupon_request = new XMLHttpRequest(); } else{coupon_request =new ActiveXObject("Microsoft.XMLHTTP"); }
+		coupon_request.open("GET","include/find_coupon.php?key_="+coupon_input.value, true);
+		coupon_request.onload = function(){
+			document.getElementById("get_coupon_response").innerHTML = coupon_request.responseText;
+			console.log(coupon_input.value); 
+		}
+		coupon_request.send();
+	})
+	
+</script> 

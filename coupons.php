@@ -1,7 +1,7 @@
 <?php include("include/header.php");?>
 <section class="py-5"></section>
 
-<?php $get_coupons = mysqli_query($config, "select * from  coupons where customer_id='$customer_id' and used='0' ") ;?>
+<?php $get_coupons = mysqli_query($config, "select * from  coupons where customer_id='$customer_id' and used='0' and customer_type ='$customer_type' ") ;?>
 <div class="container-fluid">
 	<?php if(mysqli_num_rows($get_coupons)): ?>
 	<div class="row justify-content-center">
@@ -9,7 +9,7 @@
 		<div class="col-lg-6 mb-4">
 			<div class="card">
 				<div class="card-header alert alert-info">
-					<img class="responsive img-responsive" height="50" width="50" src="images/favicon.png">
+					<img class="responsive img-responsive" height="50" width="50" src="images/favicon2.png">
 				</div>
 				<div class="card-body">
 					This coupon

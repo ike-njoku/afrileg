@@ -75,14 +75,18 @@
 ?> 
 
 <?php
-$uri = $_SERVER['REQUEST_URI'];
-echo $uri; // Outputs: URI
- 
-$protocol = ((!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off') || $_SERVER['SERVER_PORT'] == 443) ? "https://" : "http://";
- 
-$url = $protocol . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
-echo $url; // Outputs: Full URL
- 
-$query = $_SERVER['QUERY_STRING'];
-echo $query; // Outputs: Query String
+	// alter coupons table
+	$remove_order_id = mysqli_query($config,"alter table coupons drop column order_id ");
+	if ($remove_order_id) {
+		echo "removed order_id<br>";
+		$add_tracking_id = mysqli_query($config,"alter table coupons add column tracking_id varchar(225)  ");
+		if ($add_tracking_id) {
+			echo "added_tracking_id<br>";
+			// give it a default value of zero;
+			$set_default = mysqli_query($config,"alter table coupons alter tracking_id set default '0' ");
+			if ($set_default) {
+				echo "<br>done";
+			}
+		}
+	}
 ?>

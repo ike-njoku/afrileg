@@ -19,6 +19,7 @@
 <?php 
 // first, you can only access this page by referal
 ?>
+<section class="py-2"></section>
 <section class="py-5"></section>
 <div class="container-fluid">
 	<div class="row">
@@ -132,8 +133,38 @@
 
 					/* if the person bought a product*/
 
-					if($referer_url =="https://afrileg.herokuapp.com/checkout.php")
+					if($referer_url =="https://afrileg.herokuapp.com/confirm_order.php")
 					{	
+
+						// 
+
+						// transfer the customer's delivery address to the orders table
+						// initialise the "delivery_address" variable.
+						$delivery_address = "";
+
+						// get the customer's delivery_details from the delivery details table and send it to the orders table
+						// get customer_details
+						$get_delivery_details =mysqli_query($config,"select * from delivery_details where customer_id = '$customer_id' and customer_type ='$customer_type' ");
+						if (mysqli_num_rows($get_delivery_details)) {
+							$customer = mysqli_fetch_assoc($get_delivery_details);
+
+							$customer_firstname = $customer['firstname'];
+							$customer_lastname = $customer['lastname'];
+							$customer_mobile = $customer['mobile'];
+							$customer_email = $customer['email'];
+							$customer_address = $customer['address'];
+							$customer_city = $customer['city'];
+							$customer_state = $customer['state']; 
+							$customer_zip = $customer['zip'];
+							$customer_country = $customer['country'];
+						
+							// create the address from all the address
+							$delivery_address = "First Name: ".$customer_firstname."<br>"."Last Name: ".$customer_lastname."<br>"."Mobile: ".$customer_mobile."<br>"."Email: ".$customer_email."<br>"."Address: ".$customer_address."<br>"."City: ".$customer_city."<br>"."Zip: ".$customer_zip."<br>"."State: ".$customer_state."<br>"."Country: ".$customer_country."<br>";
+
+						}
+
+						
+
 						// avoid double entry and generating invalid tracking id
 						$wallet_balance=0;
 						// select products from cart
@@ -260,18 +291,20 @@
 								$coupon =0;
 								if ($cart_total>=12000) {
 
-									$coupon_code = crc32(rand(1,80000998));
+									$coupon_code = crc32(rand(1,980000998907887));
 									$coupon_value = 1000;
 
 									// check if the customer has any unused coupon
-									$get_coupon = mysqli_query($config,"select * from coupons where customer_id='$customer_id' and event='purchase' and used='0'");
+									$get_coupon = mysqli_query($config,"select * from coupons where customer_id='$customer_id' and event='purchase' and used='0' and customer_type ='$customer_type' ");
 									if (mysqli_num_rows($get_coupon)) {
 										echo'';
 									}else#insert give the person the coupon
-									{
-										$give_coupon = mysqli_query($config,"insert into coupons(customer_id,event,value,code) values('$customer_id','purchase','$coupon_value','$coupon_code') ");
+									{ 
+										$give_coupon = mysqli_query($config,"insert into coupons(customer_id,event,value,code, customer_type) values('$customer_id','purchase','$coupon_value','$coupon_code','$customer_type) ");
 										if ($give_coupon) {
-											echo 'You have been awarded a N '.$coupon_value.' click <a href="coupons.php"> here to view</a> ';
+											$coupon_message = 'You have been awarded a N '.$coupon_value.' click <a href="coupons.php"> here to view</a> ';
+										}else{
+											$coupon_message ="";
 										}
 									}
 								}
@@ -291,7 +324,7 @@
 						*/
 
 							// make an entry into the orders database with the time of transaction and the user or customer who purchased products
-							$insert_order = mysqli_query($config,"insert into orders(customer_id,regdate,customer_type) values('$customer_id',NOW() ,'$customer_type'  )");
+							$insert_order = mysqli_query($config,"insert into orders(customer_id,regdate,customer_type,address) values('$customer_id',NOW() ,'$customer_type' , '$delivery_address' )");
 							
 
 							// get the order_id
@@ -305,6 +338,14 @@
 
 							//add the generated tracking id to the orders table
 							$add_tracking_id = mysqli_query($config,"update orders set tracking_id='$tracking_id' where customer_id='$customer_id' and regdate='0' and customer_type ='$customer_type' ");
+
+							// check if the customer used a coupon so that you can cross the cookie out
+							$get_used_coupon = mysqli_query($config,"select * from coupons where customer_id ='$customer_id' and customer_type ='$customer_type' and used='1' tracking_id IS NULL ");
+							if (mysqli_num_rows($get_used_coupon)) {
+								
+								// add the tracking_id id to it
+								$update_used_coupon = mysqli_query($config ,"update coupons set tracking_id = '$tracking_id' where customer_id ='$customer_id' and customer_type ='$customer_type' and used='1' tracking_id IS NULL " );
+							}
 
 							// update the inventory of each product:
 							$select_cart_products = mysqli_query($config,"select * from cart where customer_id='$customer_id' and tracking_id='$tracking_id' and customer_type ='$customer_type' ");
@@ -332,8 +373,8 @@
 							}
 
 						//end of product purchase 
-						}					
-										
+						}	
+				
 					}	
 
 				else{
@@ -353,7 +394,8 @@
 				// if the customer purchased a product
 				if (isset($tracking_id)) 
 				{	echo "Your Purchase was successful<hr> <br> Your tracking id is: <br>";
-					echo $tracking_id;
+					echo $tracking_id."<br>"; 
+					echo $coupon_message;
 					echo "<hr>";
 				}
 				
@@ -362,6 +404,24 @@
 		</div>
 	</div>
 </div>
-<div class="fixed-bottom">
+<div class="">
 	<?php include("include/footer.php");?>
 </div>
+
+<?php 
+	$message="mail has been  sent";
+	$to = "ikenjokudc@gmail.com";
+	$subject ="successful purchase";
+
+	$headers = "From: myplace@example.com\r\n";
+	$headers .= "Reply-To: myplace2@example.com\r\n";
+	$headers .= "Return-Path: myplace@example.com\r\n";
+	$headers .= "CC: sombodyelse@example.com\r\n";
+	$headers .= "BCC: hidden@example.com\r\n";
+
+	if ( mail($to,$subject,$message,$headers) ) {
+	   echo "The email has been sent!";
+	   } else {
+	   echo "The email has failed!";
+   }
+?> 
